@@ -1,0 +1,6 @@
+fragment UserResponse on Users {
+...on Users {
+username email
+        }
+}
+

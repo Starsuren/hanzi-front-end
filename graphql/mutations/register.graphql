@@ -1,0 +1,8 @@
+mutation Register($regInputs:RegInputs!){
+register(regInputs:$regInputs){
+...UserResponse
+...ErrorResponse
+...ValidationResponse
+...DatabaseResponse
+    }
+}

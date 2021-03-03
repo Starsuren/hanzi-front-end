@@ -1,0 +1,1 @@
+query Logged {isLogged{username email}}

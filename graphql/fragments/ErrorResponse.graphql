@@ -1,0 +1,14 @@
+fragment ErrorResponse on ErrorResponse {
+...on ErrorResponse {
+   message
+        }
+}
+
+fragment DatabaseResponse on DatabaseError {
+  ...on DatabaseError{type}
+}
+
+
+fragment ValidationResponse on ValidationErrors {
+  ...on ValidationErrors{responses{property constraints{length isEmail isNotEmpty maxLength}}}
+}

@@ -1,0 +1,19 @@
+overwrite: true
+schema: "http://localhost:4000/graphql"
+documents: "./graphql/**/*.graphql"
+generates:
+  generated/fragment.json:
+    plugins:
+      - fragment-matcher
+    config:
+      module: commonjs
+      apolloClientVersion: 3
+  generated/graphql.tsx:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-apollo"
+    config:
+      module: commonjs
+      apolloClientVersion: 3
+      preResolveTypes: true

@@ -1,0 +1,8 @@
+mutation ChangePass($token:String!,$password: PasswordInput!){
+changePass(token:$token,password:$password){
+...UserResponse
+...ErrorResponse
+...ValidationResponse
+...DatabaseResponse
+    }
+}

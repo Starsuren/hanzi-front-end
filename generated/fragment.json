@@ -1,0 +1,16 @@
+{
+  "possibleTypes": {
+    "CharCollection": [
+      "Characters"
+    ],
+    "regResponse": [
+      "Users",
+      "DatabaseError",
+      "ValidationErrors"
+    ],
+    "ErrorResponse": [
+      "DatabaseError",
+      "ValidationErrors"
+    ]
+  }
+}

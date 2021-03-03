@@ -1,0 +1,8 @@
+mutation Login($logInputs:LoginInputs!){
+login(logInputs:$logInputs){
+...UserResponse
+...ErrorResponse
+...ValidationResponse
+...DatabaseResponse
+    }
+}
