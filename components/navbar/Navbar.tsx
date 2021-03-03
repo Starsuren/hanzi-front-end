@@ -14,10 +14,10 @@ export const Navbar:React.VFC = () => {
         <Link href="/"><a>Home</a></Link>
          </li>
          <li>   
-        <Link href="login"><a>Login</a></Link>
+        <Link href="/login"><a>Login</a></Link>
          </li>
          <li>
-         <Link href="register"><a>Register</a></Link>
+         <Link href="/register"><a>Register</a></Link>
          </li>
             </ul>
             </nav>)
@@ -30,7 +30,7 @@ nav = (   <nav>
 <Link href="/"><a>Home</a></Link>
  </li>
  <li>   
-<Link href="user"><a>{data?.isLogged.username}</a></Link>
+<Link href="/user"><a>{data?.isLogged.username}</a></Link>
 
  </li>
     </ul>

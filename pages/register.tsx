@@ -5,12 +5,44 @@ import {checkValidity, updateObject} from '../utility/validation';
 import {ChangeEvent} from 'react';
 import Button from '../components/Button/Button';
 import withApollo from '../utility/withApollo';
+import { useRouter } from 'next/router';
+import { useRegisterMutation,LoggedDocument,LoggedQuery } from "../generated/graphql";
 
 const Register = () => {
-
+const [register] = useRegisterMutation();
 const [registerForm,setRegisterForm] = useState(RegisterForm);
-
 const [formIsValid, setFormIsValid] = useState(false);
+const [message,setMessage] = useState({message:''});
+
+const router = useRouter();
+const submitHandler = async () => { 
+    const response = await register({
+        variables:{regInputs:{username:registerForm.name.value, password:registerForm.password.value, email:registerForm.email.value}} ,
+        update: (cache, { data }) => {
+            if('username' in data!.register){
+
+          cache.writeQuery<LoggedQuery>({
+            query:LoggedDocument,
+            data: {
+              __typename: "Query",
+              isLogged: data?.register,
+            },
+          });
+        }
+    }
+}, 
+);
+
+if('username' in response.data!.register){
+    router.push("/");
+}
+
+if('message' in response.data!.register)
+{
+setMessage(response.data!.register)
+}
+
+}
 
 const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifier:string) => {
     const updatedFormElement = updateObject(registerForm[inputIdentifier], {
@@ -56,7 +88,7 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
           changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
         />
       ))}
-      <Button clicked = {()=>{}}btnType="Success" disabled={!formIsValid}>Submit</Button>
+      <Button clicked = {submitHandler}btnType="Success" disabled={!formIsValid}>Submit</Button>
      
     </form>
   );
@@ -64,6 +96,7 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
   return (
     <div>
       <h1>Enter your user details</h1>
+      { message.message ? message.message : false}
       {form}
     </div>
   );
