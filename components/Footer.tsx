@@ -1,6 +1,6 @@
 export const Footer:React.VFC = () => (
-        <div>
+        <footer>
             
-        </div>
+        </footer>
     )
 

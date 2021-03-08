@@ -3,7 +3,7 @@ import Input from '../components/input/Inputs';
 import {RegisterForm} from '../utility/formConfig';
 import {checkValidity, updateObject} from '../utility/validation';
 import {ChangeEvent} from 'react';
-import Button from '../components/Button/Button';
+import Button from '../components/button/Button';
 import withApollo from '../utility/withApollo';
 import { useRouter } from 'next/router';
 import { useRegisterMutation,LoggedDocument,LoggedQuery } from "../generated/graphql";
@@ -88,7 +88,7 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
           changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
         />
       ))}
-      <Button clicked = {submitHandler}btnType="Success" disabled={!formIsValid}>Submit</Button>
+      <Button clicked = {submitHandler} btnType="Success" disabled={!formIsValid}>Submit</Button>
      
     </form>
   );

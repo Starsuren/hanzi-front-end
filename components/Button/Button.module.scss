@@ -13,19 +13,23 @@
     }
 
     &:disabled {
-        color: rgb(235, 6, 6);
+        color: rgb(165, 165, 165);
         cursor: not-allowed;
     }
-}
 
-
-
-
-
-.Success {
+    
+&--Success {
     color: #5c9906;
 }
 
-.Danger {
+&--Danger {
     color: #aa2424;
 }
+
+}
+
+
+
+
+
+

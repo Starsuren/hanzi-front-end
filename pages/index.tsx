@@ -2,6 +2,7 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import withApollo from '../utility/withApollo';
 import {useLoginMutation} from '../generated/graphql';
+import Spinner from '../components/spinner/Spinner';
  
 
 const Home =  () =>  {
@@ -20,9 +21,8 @@ const Home =  () =>  {
       </Head>
       <main className={styles.main}>
      <h1>Hanzi: A comprehensive Chinese dictionary</h1>
-     <p></p>
        <label htmlFor="search"> Search </label>
-       <input onChange={()=>'ji'} type="search" id="search" name="search" placeholder="Enter a word to begin search"/>
+       <input onChange={()=>'ji'} type="search" id="search" name="search" placeholder="Search Characters"/>
       </main>
     </div>
   )
