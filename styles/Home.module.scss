@@ -1,22 +1,61 @@
 .container {
-  min-height: 100vh;
+  min-height: 60vh;
   padding: 0 0.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 }
 
 //AD3C09 61715A 323561 613826
 
 .main {
+  position: relative;
   padding: 5rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: left;
 }
+
+.search{
+position: relative;
+
+&__input{
+position:absolute;
+border: 1px solid #d1d2d6;
+border-radius: .5rem;
+padding: 0.5rem;
+background: none;
+z-index: 1;
+outline: none;
+  }
+
+  &__label {
+    position:absolute;
+    left: 0.5rem;
+    top: 0.32rem;
+    padding: 0 .10rem;
+    transition:.2s;
+    background-color: #fff;
+    color:rgb(179, 165, 165);
+  }
+  &__input:focus + &__label{
+    color:#4a9cfa;
+    font-size:10px;
+    font-weight:400;
+    z-index: 10;
+    top: -.5rem;
+    left: .8rem;
+    }
+    &__input:focus {
+     
+      border: 1.5px solid #4a9cfa;
+  }
+
+}
+
 
 .footer {
   width: 100%;
