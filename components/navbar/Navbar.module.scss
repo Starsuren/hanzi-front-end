@@ -1,0 +1,90 @@
+
+@use '../../styles/var-mixins' as vam;
+
+ 
+.nav__menu {
+    &__burger{
+        display:none;
+        @include vam.screens(mobile) {
+            &{  position:relative;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                width:45px;
+                height:45px;
+                cursor:pointer;
+                border: vam.$button-border;
+                margin-right: 0.2rem;
+        }
+        }
+        
+        &__line,&__line2,&__line3 {
+        position: absolute;
+        width:32px;
+        height:4px;
+        background: black;
+        border-radius: 6px;
+        box-shadow: vam.$box-shadow;
+        }
+        
+        &__line2{
+        transform:translateY(10px);
+        }
+        
+        &__line3{
+        transform:translateY(-10px);
+            }
+        
+        }
+
+
+    }
+
+
+
+.active{
+color: rgb(78, 168, 168);
+ } 
+
+.nav {
+
+& ul{
+ 
+    @include vam.screens(mobile) {
+    &{position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(2200%);       
+    } }
+
+
+& li{
+display:inline-block;
+list-style: none;
+padding:0 2rem;
+z-index:15;
+@include vam.screens(mobile) {
+&{
+padding:5rem;
+
+& a{
+padding:3rem;
+
+
+&:hover{
+color:rgb(15, 174, 195)
+}
+
+}
+}
+}
+}
+}
+}
+

@@ -1,0 +1,23 @@
+
+$button-border:2px solid rgba(177, 198, 255, 0.5);
+$box-shadow: 0 1px 2px rgb(124, 17, 17);
+
+
+@mixin screens($breakpoint){
+    
+    
+    
+    @if $breakpoint==mobile {
+        @media only screen and (max-width: 768px) {
+            @content;
+    }
+
+    @if $breakpoint==desktop {
+        @media only screen and (min-width: 960px) {
+            @content;
+    }
+
+
+
+}
+    }}
