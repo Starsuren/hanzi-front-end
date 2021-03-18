@@ -17,7 +17,7 @@ const Login = () => {
 
     const submitHandler = async ()=> {  
         const response = await login({
-            variables:{logInputs:{username:loginForm.name.value, password:loginForm.password.value}} ,
+            variables:{logInputs:{username:loginForm.Name.value, password:loginForm.Password.value}} ,
             update: (cache, { data }) => {
                 if('username' in data!.login){
 

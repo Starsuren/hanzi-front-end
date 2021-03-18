@@ -17,7 +17,7 @@ const [message,setMessage] = useState({message:''});
 const router = useRouter();
 const submitHandler = async () => { 
     const response = await register({
-        variables:{regInputs:{username:registerForm.name.value, password:registerForm.password.value, email:registerForm.email.value}} ,
+        variables:{regInputs:{username:registerForm.Name.value, password:registerForm.Password.value, email:registerForm.Email.value}} ,
         update: (cache, { data }) => {
             if('username' in data!.register){
 

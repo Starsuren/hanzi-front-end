@@ -1,15 +1,26 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.scss'
 import withApollo from '../utility/withApollo';
-import {useLoginMutation} from '../generated/graphql';
+import {use} from '../generated/graphql';
 import Spinner from '../components/spinner/Spinner';
- 
+import {useEffect} from 'react';
 
 const Home =  () =>  {
   
-  //const [lol,{data}] = useLoginMutation({variables:{ logInputs:{username:'flsddo',password:'hellosadadmama'}}});
-  
-  //if("username" in data?.login!) data?.login.
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+    
+  }, 2000);
+     
+    return () => {
+      clearTimeout()
+    }
+  }, [])
+
+  const inputHandler = () => {
+
+
+  }
  
   return (
 

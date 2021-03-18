@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useApolloClient } from '@apollo/client';
 import Modal from '../UI/Modal';
 import { useRouter } from "next/router";
-import { useLoggedQuery , useLogoutMutation} from "../../generated/graphql";
+import { LoggedQuery, useLoggedQuery , useLogoutMutation} from "../../generated/graphql";
 import ActiveLink from './ActiveLink';
 import classes from './Navbar.module.scss';
 import {motion,AnimatePresence,useCycle } from 'framer-motion';
@@ -68,30 +68,44 @@ className={classes.nav__menu__burger}>
 </motion.div>
 )
 
-const MainLinks:React.FC<{open:boolean}> = ({open})=>{ 
-    
- const aniLink = (<motion.ul key="child" exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>
+const MainLinks:React.FC<{open:boolean, data:LoggedQuery|undefined}> = ({open, data})=>{ 
+
+    let loggedUser = null;
+    if(data?.isLogged !== undefined){
+    loggedUser = data.isLogged?.username;
+    }
+
+
+
+ const aniLink = (
+        <motion.ul exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>
         <li> 
         <ActiveLink href="/" activeClassName={classes.active}><a>Home</a></ActiveLink>
         </li> 
-        <li>   
+        {loggedUser ? <li>   
+        <ActiveLink href="/user/" activeClassName={classes.active}><a>{loggedUser}</a></ActiveLink>
+        </li>:
+        <><li>   
         <ActiveLink href="/login" activeClassName={classes.active}><a>Login</a></ActiveLink>
         </li>
         <li>
         <ActiveLink href="/register" activeClassName={classes.active}><a>Register</a></ActiveLink>
-        </li>
+        </li></> }
         </motion.ul>);
         
      const link = (<ul>
         <li> 
         <ActiveLink href="/" activeClassName={classes.active}><a>Home</a></ActiveLink>
         </li> 
-        <li>   
+        {loggedUser ? <li>   
+        <ActiveLink href="/user/" activeClassName={classes.active}><a>{loggedUser}</a></ActiveLink>
+        </li>:
+        <><li>   
         <ActiveLink href="/login" activeClassName={classes.active}><a>Login</a></ActiveLink>
         </li>
         <li>
         <ActiveLink href="/register" activeClassName={classes.active}><a>Register</a></ActiveLink>
-        </li>
+        </li></>}
         </ul>);
  
  return <AnimatePresence>{open? aniLink:link}</AnimatePresence>;
@@ -110,37 +124,15 @@ export const Navbar:React.VFC = () => {
         router.replace('/')
     } 
 
-    let nav = null;
-    let home = router.pathname ==='/' ? false : (<li>   
-        <Link href="/"><a>Home</a></Link>
-         </li>) ;
- 
-    
-
-    if(!data?.isLogged){
-        nav = ( <nav className={classes.nav}>
+    const nav = ( <nav className={classes.nav}>
     <div className={classes.nav__menu}>
-     <MainLinks open={isOpen} />
+     <MainLinks open={isOpen} data={data} />
      <BurgerMenu open={isOpen} clicked={()=>{
-         setIsOpen(!isOpen);}} />
+     setIsOpen(!isOpen);}} />
      <div className={classes.nav__modal}></div>
      <Modal showModal={isOpen} setModal={()=>setIsOpen(!isOpen)} />
      </div>
      </nav>)
-
-    }
-    else {
-nav = ( 
-    <nav>
-    <ul>
-    <li>   
-<Link href="/"><a>Home</a></Link>
- </li>
- <li>   
-<Link href="/user"><a>{data?.isLogged.username}</a></Link>
-</li>
-</ul>
-</nav> )
- }
+    
   return nav;
 }
