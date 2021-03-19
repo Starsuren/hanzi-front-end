@@ -1,0 +1,10 @@
+query findChar($char:[string],$options:{characters:boolean,words:boolean,sentences:boolean}) {findChar(char:$char,options:$options) 
+  {  __typename
+     ...on CharCollection{char_detail{character pinyin meaning}}
+  	 ...on Sentences{chengyu}
+     ...on Characters{variant}
+  }
+}
+
+
+ 

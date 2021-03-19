@@ -1,7 +1,14 @@
 {
   "possibleTypes": {
+    "charResponse": [
+      "Characters",
+      "Words",
+      "Sentences"
+    ],
     "CharCollection": [
-      "Characters"
+      "Characters",
+      "Words",
+      "Sentences"
     ],
     "regResponse": [
       "Users",

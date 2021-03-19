@@ -15,10 +15,25 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Query = {
+  __typename?: 'Query';
+  findChar: Array<CharResponse>;
+  isLogged?: Maybe<Users>;
+};
+
+
+export type QueryFindCharArgs = {
+  options: Options;
+  char: Array<Scalars['String']>;
+};
+
+export type CharResponse = Characters | Words | Sentences;
+
 export type Characters = CharCollection & {
   __typename?: 'Characters';
   id: Scalars['Float'];
   char_detail: Common;
+  variant?: Maybe<Scalars['String']>;
 };
 
 export type CharCollection = {
@@ -33,15 +48,23 @@ export type Common = {
   meaning: Scalars['String'];
 };
 
-export type Query = {
-  __typename?: 'Query';
-  findChar: Array<CharCollection>;
-  isLogged?: Maybe<Users>;
+export type Words = CharCollection & {
+  __typename?: 'Words';
+  id: Scalars['Float'];
+  char_detail: Common;
 };
 
+export type Sentences = CharCollection & {
+  __typename?: 'Sentences';
+  id: Scalars['Float'];
+  char_detail: Common;
+  chengyu: Scalars['Boolean'];
+};
 
-export type QueryFindCharArgs = {
-  char: Array<Scalars['String']>;
+export type Options = {
+  characters: Scalars['Boolean'];
+  words: Scalars['Boolean'];
+  sentences: Scalars['Boolean'];
 };
 
 export type Users = {
@@ -51,8 +74,29 @@ export type Users = {
   email: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
+  flashcards: Array<Flashcards>;
+  flashcardwords: Array<FlashcardWords>;
+  flashcardsentences: Array<FlashcardSentences>;
 };
 
+
+export type Flashcards = {
+  __typename?: 'Flashcards';
+  passed?: Maybe<Scalars['Boolean']>;
+  characters?: Maybe<Characters>;
+};
+
+export type FlashcardWords = {
+  __typename?: 'FlashcardWords';
+  passed?: Maybe<Scalars['Boolean']>;
+  words?: Maybe<Words>;
+};
+
+export type FlashcardSentences = {
+  __typename?: 'FlashcardSentences';
+  passed?: Maybe<Scalars['Boolean']>;
+  sentences?: Maybe<Sentences>;
+};
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -217,7 +261,7 @@ export type RegisterMutation = { __typename?: 'Mutation', register: (
 export type LoggedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoggedQuery = { __typename?: 'Query', isLogged?: Maybe<{ __typename?: 'Users', username: string, email: string }> };
+export type LoggedQuery = { __typename?: 'Query', isLogged?: Maybe<{ __typename?: 'Users', username: string, email: string, flashcards: Array<{ __typename?: 'Flashcards', passed?: Maybe<boolean>, characters?: Maybe<{ __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> }> }> };
 
 export const ErrorResponseFragmentDoc = gql`
     fragment ErrorResponse on ErrorResponse {
@@ -435,6 +479,16 @@ export const LoggedDocument = gql`
   isLogged {
     username
     email
+    flashcards {
+      passed
+      characters {
+        char_detail {
+          character
+          pinyin
+          meaning
+        }
+      }
+    }
   }
 }
     `;
