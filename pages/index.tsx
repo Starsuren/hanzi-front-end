@@ -49,13 +49,13 @@ const Home =  () =>  {
 
 
       <main className={styles.main}>
-      <motion.div  variants={variants} initial="hidden" animate={state && 'visible'}>
+      <motion.div className={styles.main__box} variants={variants} initial="hidden" animate={state && 'visible'}>
        <AnimatePresence >{!state && <motion.div exit={{opacity:0,y:-400, transition:{ velocity:100,type:'tween'}}}initial="hidden" animate="visible" className={styles.main__intro}>
           <h1>Hanzi: A comprehensive Chinese dictionary</h1>
         </motion.div>}
         </AnimatePresence>  
       <div className={styles.search}>
-      <input placeholder =" " className={styles.search__input} onFocus={()=>setState(true)} type="search" id="search" name="search"/>
+      <input placeholder =" " className={styles.search__input} onChange={()=>setState(true)} type="search" id="search" name="search"/>
        <label className={styles.search__label} htmlFor="search">Search</label>
       </div>
       </motion.div>
