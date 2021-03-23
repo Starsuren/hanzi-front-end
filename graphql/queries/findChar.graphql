@@ -1,5 +1,6 @@
-query findChar($char:[string],$options:{characters:boolean,words:boolean,sentences:boolean}) {findChar(char:$char,options:$options) 
-  {  __typename
+query findChar($char:[String!]!,$options:Options!)
+{findChar(char:$char,options:$options){
+  __typename
      ...on CharCollection{char_detail{character pinyin meaning}}
   	 ...on Sentences{chengyu}
      ...on Characters{variant}
@@ -8,3 +9,4 @@ query findChar($char:[string],$options:{characters:boolean,words:boolean,sentenc
 
 
  
+  

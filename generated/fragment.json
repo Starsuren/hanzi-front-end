@@ -1,11 +1,16 @@
 {
   "possibleTypes": {
-    "charResponse": [
+    "flashResponse": [
+      "Flashcards",
+      "FlashcardWords",
+      "FlashcardSentences"
+    ],
+    "CharCollection": [
       "Characters",
       "Words",
       "Sentences"
     ],
-    "CharCollection": [
+    "charResponse": [
       "Characters",
       "Words",
       "Sentences"

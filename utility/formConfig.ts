@@ -19,7 +19,7 @@ export const LoginForm:LogRegisterType = { Name: {
 },  Password: {
   elementType: 'password',
   elementConfig: {
-    type: 'text',
+    type: 'password',
     placeholder: 'Password'
   },
   value: '',
