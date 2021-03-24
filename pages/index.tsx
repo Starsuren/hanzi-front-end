@@ -6,8 +6,8 @@ import {useEffect, useState} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
 
 const variants = {
-hidden:{minWidth: '20rem', padding:'0 3rem',border:'1px dashed #999ca1',borderRadius:15,backgroundColor:''},
-visible:{border:'2px solid #aeccfc', borderRadius:10, backgroundColor:'',width:'70%',height:'70%', transition:{type:'spring', stiffness:40}}
+hidden:{ border:'1px dashed #999ca1',borderRadius:15},
+visible:{border:'2px solid #8b9fc4', borderRadius:10 ,width:'70%',height:'70%', transition:{type:'spring', stiffness:40}}
 }
 
 const searchVariant = {
@@ -45,6 +45,7 @@ const Home =  () =>  {
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
       </Head>
 
 
@@ -54,9 +55,9 @@ const Home =  () =>  {
           <h1>Hanzi: A comprehensive Chinese dictionary</h1>
         </motion.div>}
         </AnimatePresence>  
-      <div className={styles.search}>
+      <div className={state? styles['search--box-open'] : styles.search}>
       <input placeholder =" " className={styles.search__input} onChange={()=>setState(true)} type="search" id="search" name="search"/>
-       <label className={styles.search__label} htmlFor="search">Search</label>
+      <label className={state? styles['search__label--box-open'] : styles.search__label} htmlFor="search">Search</label>
       </div>
       </motion.div>
       </main>

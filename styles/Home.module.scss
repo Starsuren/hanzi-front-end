@@ -1,3 +1,6 @@
+$color1:#a6c4e6;
+
+
 .container {
  height:100vh;
   padding: 0 0.5rem;
@@ -12,9 +15,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-
-  
+  align-items: center;
   width:100%;
   height:100%;
 &__intro{
@@ -23,31 +24,69 @@
 }
 &__box{
 position:relative;
-width:100%;
-max-width: 50rem;
+max-width: 60rem;
+min-width:15rem;
+
 }
 
 }
 
 
 .search{
- 
 position: absolute;
+margin-top: 3rem;
+margin-left: 3rem;
 width:100%;
-margin-top: 1rem;
-margin-left: 6.5rem;
 
+@media only screen and (max-width:490px){
+&{
+  margin-left: 1.5rem;
+  }
+}
+
+&--box-open{
+  margin-top: 2rem;
+  margin-left: 6rem;
+
+  @media only screen and (min-width:900px){
+    &{
+      margin-left: 9rem;
+      }
+    }
+
+  @media only screen and (max-width:700px){
+    &{
+      margin-left: 4rem;
+      }
+    }
+
+
+  @media only screen and (max-width:570px){
+    &{
+      margin-left: 2.5rem;
+      }
+    }
+}
+
+
+ 
 &__input{
-
 border: 1px solid #d1d2d6;
 border-radius: .5rem;
 padding: 0.5rem;
 background: none;
 z-index: 1;
 outline: none;
-width:50%;
+width:80%;
 transition:0.5s;
+
+
+
+
   }
+
+
+
 
   &__label {
     position:absolute;
@@ -58,16 +97,28 @@ transition:0.5s;
     background-color: #fff;
     color:rgb(179, 165, 165);
 
+&--box-open{
+  background-color: #fff;
+  padding: 0 .30rem;
+  position:absolute;
+  color:#8b9fc4;
+  font-size:16px;
+  font-weight:400;
+  z-index: 4;
+  top: -0.7rem;
+  left: 1rem;
+}
+
   }
 
   &__input:focus{
  transition:0.5s;
- width:58%;
+ width:82%;
   }
 
 
   &__input:focus + &__label{
-    color:#4a9cfa;
+    color:$color1;
     font-size:10px;
     font-weight:400;
     z-index: 10;
@@ -76,7 +127,7 @@ transition:0.5s;
     }
 
     &__input:not(:placeholder-shown).search__input:not(:focus) + &__label {
-      color:#4a9cfa;
+      color:$color1;
       font-size:10px;
       font-weight:400;
       z-index: 10;
@@ -89,10 +140,16 @@ transition:0.5s;
 
 
     &__input:focus {
-      border: 1.5px solid #4a9cfa;
+      border: 1.5px solid $color1;
   }
 
 }
+
+
+
+
+
+
 
 
 .footer {
