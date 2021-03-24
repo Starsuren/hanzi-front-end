@@ -1,6 +1,5 @@
 $color1:#a6c4e6;
 
-
 .container {
  height:100vh;
   padding: 0 0.5rem;
@@ -27,6 +26,33 @@ position:relative;
 max-width: 60rem;
 min-width:15rem;
 
+
+&__results{
+
+min-width: 5rem;
+max-width: 10rem;
+height:5rem;
+border:1px solid #a6c4e6;
+border-radius: 0.3rem;
+
+&__char{
+
+
+}
+
+&__word{
+
+
+}
+
+&__sent{
+
+
+}
+
+}
+
+
 }
 
 }
@@ -50,20 +76,20 @@ width:100%;
 
   @media only screen and (min-width:900px){
     &{
-      margin-left: 9rem;
+      margin-left: 8rem;
       }
     }
 
   @media only screen and (max-width:700px){
     &{
-      margin-left: 4rem;
+      margin-left: 3.5rem;
       }
     }
 
 
   @media only screen and (max-width:570px){
     &{
-      margin-left: 2.5rem;
+      margin-left: 2.8rem;
       }
     }
 }

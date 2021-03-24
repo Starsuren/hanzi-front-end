@@ -58,6 +58,11 @@ const Home =  () =>  {
       <div className={state? styles['search--box-open'] : styles.search}>
       <input placeholder =" " className={styles.search__input} onChange={()=>setState(true)} type="search" id="search" name="search"/>
       <label className={state? styles['search__label--box-open'] : styles.search__label} htmlFor="search">Search</label>
+
+      <motion.div className={`${styles.main__box__results} ${styles.main__box__results__char}`}></motion.div>
+      <motion.div className={`${styles.main__box__results} ${styles.main__box__results__word}`}></motion.div>
+      <motion.div className={`${styles.main__box__results} ${styles.main__box__results__sent}`}></motion.div>
+
       </div>
       </motion.div>
       </main>
