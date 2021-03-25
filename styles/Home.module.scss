@@ -5,6 +5,17 @@ $color1:#a6c4e6;
   padding: 0 0.5rem;
 }
 
+@mixin resBox($color){
+  border:3px solid $color;
+  border-radius: 0.3rem;
+  width: 13rem;
+  height: 7rem;
+  min-width: 8rem;
+  min-height: 3rem;
+ 
+}
+
+
 //AD3C09 61715A 323561 613826
 
 .main {
@@ -21,35 +32,47 @@ $color1:#a6c4e6;
   display: flex;
   justify-content: center;
 }
+
 &__box{
 position:relative;
 max-width: 60rem;
 min-width:15rem;
-
+min-height: 12rem;
+max-height: 60vh;
 
 &__results{
 
-min-width: 5rem;
-max-width: 10rem;
-height:5rem;
+display:flex; 
+margin-top: 1rem;
+height:90%;
+width: 100%;
+padding: 1rem;
 border:1px solid #a6c4e6;
-border-radius: 0.3rem;
+ justify-content: center;
+flex-wrap: wrap;
+align-content: flex-start;
+overflow-y: scroll;
 
-&__char{
+&__item{
+text-align: center;
+margin:1.5rem;
 
-
-}
-
-&__word{
-
-
-}
-
-&__sent{
-
+&--char{
+@include resBox(blue);
 
 }
 
+&--word{
+  @include resBox(red);
+
+}
+
+&--sent{
+  @include resBox(green);
+}
+
+
+}
 }
 
 
@@ -63,7 +86,7 @@ position: absolute;
 margin-top: 3rem;
 margin-left: 3rem;
 width:100%;
-
+ 
 @media only screen and (max-width:490px){
 &{
   margin-left: 1.5rem;
