@@ -1,12 +1,12 @@
-import Link from 'next/link';
+
 import { useApolloClient } from '@apollo/client';
 import Modal from '../UI/Modal';
 import { useRouter } from "next/router";
 import { LoggedQuery, useLoggedQuery , useLogoutMutation} from "../../generated/graphql";
 import ActiveLink from './ActiveLink';
-import classes from './Navbar.module.scss';
 import {motion,AnimatePresence,useCycle } from 'framer-motion';
 import {useState} from 'react';
+import styles from './Navbar.module.scss'
 
 const containerVariants = {
     hidden:{
@@ -61,10 +61,10 @@ const listVariant = {
 
 const BurgerMenu:React.FC<{open:boolean,clicked:()=>void}> = ({open, clicked}) => (
 <motion.div onClick={clicked} variants={containerVariants} whileHover={open? 'openHover':'hover'} initial={open? 'openHidden' : 'hidden'} animate={open?'openVisible':'visible'}
-className={classes.nav__menu__burger}> 
-<motion.div variants= {middleLineVariants} className={classes.nav__menu__burger__line}></motion.div>
-<motion.div variants= {topLineVariants}    className={classes.nav__menu__burger__line2}></motion.div>
-<motion.div variants= {bottomLineVariants} className={classes.nav__menu__burger__line3}></motion.div>
+className={styles.nav__menu__burger}> 
+<motion.div variants= {middleLineVariants} className={styles.nav__menu__burger__line}></motion.div>
+<motion.div variants= {topLineVariants}    className={styles.nav__menu__burger__line2}></motion.div>
+<motion.div variants= {bottomLineVariants} className={styles.nav__menu__burger__line3}></motion.div>
 </motion.div>
 )
 
@@ -80,31 +80,31 @@ const MainLinks:React.FC<{open:boolean, data:LoggedQuery|undefined}> = ({open, d
  const aniLink = (
         <motion.ul exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>
         <li> 
-        <ActiveLink href="/" activeClassName={classes.active}><a>Home</a></ActiveLink>
+        <ActiveLink href="/" activeClassName={styles.active}><a>Home</a></ActiveLink>
         </li> 
         {loggedUser ? <li>   
-        <ActiveLink href="/user/" activeClassName={classes.active}><a>{loggedUser}</a></ActiveLink>
+        <ActiveLink href="/user/" activeClassName={styles.active}><a>{loggedUser}</a></ActiveLink>
         </li>:
         <><li>   
-        <ActiveLink href="/login" activeClassName={classes.active}><a>Login</a></ActiveLink>
+        <ActiveLink href="/login" activeClassName={styles.active}><a>Login</a></ActiveLink>
         </li>
         <li>
-        <ActiveLink href="/register" activeClassName={classes.active}><a>Register</a></ActiveLink>
+        <ActiveLink href="/register" activeClassName={styles['active--button']}><a>Register</a></ActiveLink>
         </li></> }
         </motion.ul>);
         
      const link = (<ul>
         <li> 
-        <ActiveLink href="/" activeClassName={classes.active}><a>Home</a></ActiveLink>
+        <ActiveLink href="/" activeClassName={styles.active}><a>Home</a></ActiveLink>
         </li> 
         {loggedUser ? <li>   
-        <ActiveLink href="/user/" activeClassName={classes.active}><a>{loggedUser}</a></ActiveLink>
+        <ActiveLink href="/user/" activeClassName={styles.active}><a>{loggedUser}</a></ActiveLink>
         </li>:
         <><li>   
-        <ActiveLink href="/login" activeClassName={classes.active}><a>Login</a></ActiveLink>
+        <ActiveLink href="/login" activeClassName={styles.active}><a>Login</a></ActiveLink>
         </li>
         <li>
-        <ActiveLink href="/register" activeClassName={classes.active}><a>Register</a></ActiveLink>
+        <ActiveLink href="/register" activeClassName={styles['active--button']}><button>Register</button></ActiveLink>
         </li></>}
         </ul>);
  
@@ -124,12 +124,12 @@ export const Navbar:React.VFC = () => {
         router.replace('/')
     } 
 
-    const nav = ( <nav className={classes.nav}>
-    <div className={classes.nav__menu}>
+    const nav = ( <nav className={styles.nav}>
+    <div className={styles.nav__menu}>
      <MainLinks open={isOpen} data={data} />
      <BurgerMenu open={isOpen} clicked={()=>{
      setIsOpen(!isOpen);}} />
-     <div className={classes.nav__modal}></div>
+     <div className={styles.nav__modal}></div>
      <Modal showModal={isOpen} setModal={()=>setIsOpen(!isOpen)} />
      </div>
      </nav>)
