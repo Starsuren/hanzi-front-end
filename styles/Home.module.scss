@@ -12,7 +12,6 @@ $color1:#a6c4e6;
   height: 6rem;
   min-width: 8rem;
   min-height: 3rem;
- 
 }
 
 
@@ -38,9 +37,14 @@ position: relative;
 max-width: 60rem;
 min-width:18rem;
 padding: 0 0.9rem;
+opacity:1; 
+border:1px dashed #999ca1;
+border-radius:15px;
 
 &--open{
 min-height:25rem;
+border:3px solid #8b9fc4;
+border-radius:10px; 
 }
 
 &__results{
