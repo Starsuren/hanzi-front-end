@@ -7,6 +7,7 @@ import Button from '../components/button/Button';
 import withApollo from '../utility/withApollo';
 import { useRouter } from "next/router";
 import {LoggedDocument, LoggedQuery, useLoginMutation} from '../generated/graphql';
+import styles from '../styles/login.module.scss';
 
 const Login = () => {
     const router = useRouter();
@@ -77,7 +78,8 @@ const Login = () => {
       }
     
       let form = (
-        <form >
+        <form className={styles.main__form} >
+           <h1>Login details</h1>
           {formElementsArray.map(formElement => (
             <Input
               key={formElement.id}
@@ -96,12 +98,9 @@ const Login = () => {
       );
     
       return (
-        <div>
-          <h1>Enter your login details</h1>
+        <div className={styles.main}>
         { message.message ? message.message : false
           }
-
-
           {form}
         </div>
       );

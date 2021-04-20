@@ -1,6 +1,6 @@
 import {} from '../../utility/validation';
 import {ChangeEvent} from 'react';
-import classes from './inputs.module.scss'
+import styles from './inputs.module.scss'
 
 interface Input { 
     id:string
@@ -15,10 +15,10 @@ interface Input {
 
 const input:React.FC<Input> = ( props ) => {
     let inputElement = null;
-    const inputClasses = [classes.InputElement];
+    const inputClasses = [styles.InputElement];
 
     if (props.invalid && props.shouldValidate && props.touched) {
-        inputClasses.push(classes.Invalid);
+        inputClasses.push(styles.Invalid);
     }
 
     switch ( props.elementType ) {
@@ -38,8 +38,8 @@ const input:React.FC<Input> = ( props ) => {
     }
 
     return (
-        <div className={classes.Input}>
-            <label className={classes.Label}>{props.id}</label>
+        <div className={styles.Input}>
+            <label className={styles.Label}>{props.id}</label>
             {inputElement}
         </div>
     );
