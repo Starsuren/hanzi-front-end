@@ -79,7 +79,7 @@ const Login = () => {
     
       let form = (
         <form className={styles.main__form} >
-           <h1>Login details</h1>
+           <h1>Welcome back!</h1>
           {formElementsArray.map(formElement => (
             <Input
               key={formElement.id}
