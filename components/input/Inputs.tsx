@@ -24,6 +24,7 @@ const input:React.FC<Input> = ( props ) => {
     switch ( props.elementType ) {
         case ( 'input' ):
             inputElement = <input
+
                 className={inputClasses.join(' ')}
                 {...props.elementConfig}
                 value={props.value}
