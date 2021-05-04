@@ -26,8 +26,9 @@ color:rgb(2, 2, 2);
 margin:0.8rem;
 }
 
-& > div:nth-child(1) input{
-    height:4000000px;
+& > div:nth-child(2) > input {
+  background-image: url(../assets/icons/person-circle-outline.svg);
+  background-repeat: no-repeat;
 }
 
 
