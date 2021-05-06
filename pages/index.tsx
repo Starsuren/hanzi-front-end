@@ -9,8 +9,8 @@ import {useFindCharQuery} from '../generated/graphql';
 
 
 const variants = {
-visible:{ display:'block',y:0, borderRadius:10, opacity:1, transition:{duration:0.3,delay:0.5, type:'tween'}},
-hidden:{display:'none',y:500,border:'2px solid #8b9fc4',opacity:0}
+visible:{ display:'block',y:0, opacity:1, transition:{duration:0.3,delay:0.5, type:'tween'}},
+hidden:{display:'none',y:500,opacity:0}
 }
 
 
@@ -61,14 +61,32 @@ const Home =  () =>  {
 }
 </AnimatePresence>
 {typeof state === 'string' &&
-      <motion.div  className={[styles.main__box,styles['main__box--open']].join(' ')} variants={variants} initial='hidden' animate='visible'>
+      <motion.div  className={styles['main__box--open']} variants={variants} initial='hidden' animate='visible'>
       <motion.div initial="" animate="" className={styles['search--box-open']}>
-      <input placeholder =" " value={state} className={[styles.search__input,styles.search__input__open].join(' ')} onChange={(e)=>setState(e.currentTarget.value)} type="search" id="search" name="search" ref={inputRef} autoFocus  />
-      <label className={styles['search__label--box-open']}  htmlFor="search">Search</label>
+      <input placeholder =" Search" value={state} className={[styles.search__input,styles.search__input__open].join(' ')} onChange={(e)=>setState(e.currentTarget.value)} type="search" id="search" name="search" ref={inputRef} autoFocus  />
       </motion.div> 
       <div className={styles.main__box__results}> 
+      
+      <div></div>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       {dataResults ? dataResults : (<div><h1>No results were found</h1><p>Try a different term or remove filters</p></div>)}
-      </div>
+      <div className={`${styles[`main__box__results__item--Characters`]} ${styles.main__box__results__item}`}>
+        <p>中国</p>
+        <p>Pinyin: zhongguo</p>
+        <p>Meaning: China</p>
+        </div>
+      </div> 
+
+
       </motion.div>
 }
   </main>
