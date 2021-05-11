@@ -32,8 +32,20 @@ $color1:#a6c4e6;
   width:100%;
   max-height: 73rem;
 &__intro{
-  display: flex;
-  justify-content: center;
+max-width: 30rem;
+ 
+& h1 {
+  text-align: center;
+  margin:1rem;
+  color:rgb(41, 41, 41);
+}
+
+& p {
+  color:rgb(95, 95, 95);
+ line-height: 30px;
+ letter-spacing: 0;
+ text-align: center;
+}
 }
 
 &__box{
@@ -41,9 +53,6 @@ position: relative;
 max-width: 60rem;
 min-width:18rem;
 padding: 0 0.9rem;
-opacity:1; 
-border:1px dashed #999ca1;
-border-radius:15px;
 
 &--open{
 
@@ -74,7 +83,7 @@ margin:1.5rem;
 }
 
 &--Sentences{
-  @include resBox(rgb(111, 238, 189));
+  @include resBox(rgb(90, 219, 111));
 }
 
 
@@ -89,8 +98,8 @@ margin:1.5rem;
 
 .search{
 position: absolute;
-margin-top: 3rem;
-margin-left: 3rem;
+margin-top: 0.8rem;
+margin-left: 2.1rem;
 width:100%;
 z-index: 1;
 

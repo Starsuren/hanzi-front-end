@@ -50,7 +50,8 @@ const Home =  () =>  {
         {state===null &&  
       <motion.div exit={{opacity:0,width:0,height:0,transition:{velocity:20, duration:0.4,delay:0.3,type:'tween'}}} className={styles.main__box}>
       <motion.div exit={{opacity:0,transition:{ velocity:50, type:'tween'}}} className={styles.main__intro}>
-          <h1>Hanzi: A comprehensive Chinese dictionary</h1>
+          <h1>Hanzi</h1>
+          <p>A comprehensive Chinese dictionary for English translations of common Chinese words and phrases.</p>
         </motion.div>
       <motion.div  exit={{opacity:0,transition:{duration:0.2,type:'tween'}}} className={styles.search}>
       <input placeholder =" " className={styles.search__input} onKeyPress={(e)=>{if(e.key==='Enter')setState(e.currentTarget.value)}} type="search" id="search" name="search"/>
