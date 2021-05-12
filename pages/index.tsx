@@ -9,7 +9,7 @@ import {useFindCharQuery} from '../generated/graphql';
 
 
 const variants = {
-visible:{ display:'block',y:0, opacity:1, transition:{duration:0.3,delay:0.5, type:'tween'}},
+visible:{ width:'100%', display:'block',y:0, opacity:1, transition:{duration:0.3,delay:0.5, type:'tween'}},
 hidden:{display:'none',y:500,opacity:0}
 }
 
@@ -68,26 +68,18 @@ const Home =  () =>  {
       </motion.div> 
       <div className={styles.main__box__results}> 
       
-      <div></div>
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      {dataResults ? dataResults : (<div><h1>No results were found</h1><p>Try a different term or remove filters</p></div>)}
-      <div className={`${styles[`main__box__results__item--Characters`]} ${styles.main__box__results__item}`}>
-        <p>中国</p>
-        <p>Pinyin: zhongguo</p>
-        <p>Meaning: China</p>
-        </div>
+
+
+
+      <div className={styles.main__box__results__item__Characters}> 
+      <h1>Characters</h1>
+
+      </div>
+      <div   className={styles.main__box__results__item__Words}> </div>
+      <div   className={styles.main__box__results__item__Sentences}> </div>
+
+
       </div> 
-
-
       </motion.div>
 }
   </main>
