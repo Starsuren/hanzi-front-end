@@ -9,7 +9,7 @@ import {useFindCharQuery} from '../generated/graphql';
 
 
 const variants = {
-visible:{ width:'100%', display:'block',y:0, opacity:1, transition:{duration:0.3,delay:0.5, type:'tween'}},
+visible:{ display:'block',y:0, opacity:1, transition:{duration:0.3,delay:0.5, type:'tween'}},
 hidden:{display:'none',y:500,opacity:0}
 }
 
@@ -40,6 +40,7 @@ const Home =  () =>  {
         <link rel="icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link href="https://fonts.googleapis.com/css2?family=Varela&display=swap" rel="stylesheet" /> 
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Share+Tech&display=swap" rel="stylesheet" />    
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
         
       </Head>
@@ -68,15 +69,11 @@ const Home =  () =>  {
       </motion.div> 
       <div className={styles.main__box__results}> 
       
-
-
-
-      <div className={styles.main__box__results__item__Characters}> 
-      <h1>Characters</h1>
-
+<div className={styles.main__box__results__nav}> 
+      <h1>Characters</h1> <h1>Words</h1> <h1>Sentences</h1> 
       </div>
-      <div   className={styles.main__box__results__item__Words}> </div>
-      <div   className={styles.main__box__results__item__Sentences}> </div>
+   
+  
 
 
       </div> 
