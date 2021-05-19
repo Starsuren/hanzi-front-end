@@ -73,7 +73,11 @@ const Home =  () =>  {
       <h1>Characters</h1> <h1>Words</h1> <h1>Sentences</h1> 
       </div>
    
-  
+  <div className={styles.main__box__results__item}>
+<span>中文</span>
+<span>zhongwen</span>
+<span>Chinese</span>
+</div>
 
 
       </div> 
