@@ -74,9 +74,30 @@ const Home =  () =>  {
       </div>
    
   <div className={styles.main__box__results__item}>
+<div className={styles.main__box__results__item__text}>
 <span>中文</span>
 <span>zhongwen</span>
-<span>Chinese</span>
+<span>Chinese Languag  kjkds jdkjd kjkds eklk 
+ddadaddd anklnk lnkl ddgfgdf hdhfd hgdg</span>
+</div>
+</div>
+
+<div className={styles.main__box__results__item}>
+<div className={styles.main__box__results__item__text}>
+<span>中文</span>
+<span>zhongwen</span>
+<span>Chinese Languag  kjkds jdkjd kjkds eklk 
+ddadaddd anklnk lnkl ddgfgdf hdhfd hgdg</span>
+</div>
+</div>
+
+<div className={styles.main__box__results__item}>
+<div className={styles.main__box__results__item__text}>
+<span>中文</span>
+<span>zhongwen</span>
+<span>Chinese Languag  kjkds jdkjd kjkds eklk 
+ddadaddd anklnk lnkl ddgfgdf hdhfd hgdg</span>
+</div>
 </div>
 
 

@@ -1,5 +1,7 @@
 $color1:#a6c4e6;
 
+
+
 .container {
  height:100vh;
 }
@@ -72,6 +74,7 @@ border-top: 1px solid rgba(19, 85, 85, 0.3);
 }
 
 &__item{
+flex-direction: column;
 text-align: center;
 margin:1.5rem;
 width: 200px;
@@ -96,7 +99,7 @@ color:rgb(235, 235, 235);
 
 &::before {
   height: 100px;
-  width: 155px;
+  width: 165px;
 }
 
  
@@ -111,6 +114,28 @@ color:rgb(235, 235, 235);
 &:hover {
   background: rgb(73, 151, 151);
 }
+
+&__text{ 
+max-height:80px;
+display:flex;
+flex-flow: column;
+align-items: center;
+& span:nth-child(2){
+  font-size: 10px;
+  
+  }
+  
+  & span:nth-child(3){
+    font-size: 15px;
+    width: 190px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    }
+
+  }
 
 
 
