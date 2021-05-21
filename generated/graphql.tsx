@@ -35,9 +35,6 @@ export type Users = {
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
   flashcard: Array<FlashResponse>;
-  flashcards?: Maybe<Array<Flashcards>>;
-  flashcardwords?: Maybe<Array<FlashcardWords>>;
-  flashcardsentences?: Maybe<Array<FlashcardSentences>>;
 };
 
 
@@ -46,7 +43,7 @@ export type FlashResponse = Flashcards | FlashcardWords | FlashcardSentences;
 export type Flashcards = {
   __typename?: 'Flashcards';
   passed?: Maybe<Scalars['Boolean']>;
-  characters?: Maybe<Characters>;
+  characters: Characters;
 };
 
 export type Characters = CharCollection & {
@@ -192,7 +189,7 @@ export type DatabaseResponseFragment = { __typename?: 'DatabaseError', type: str
 
 export type ValidationResponseFragment = { __typename?: 'ValidationErrors', responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> };
 
-export type UserResponseFragment = { __typename?: 'Users', username: string, email: string };
+export type UserResponseFragment = { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'Flashcards', passed?: Maybe<boolean>, characters: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } } | { __typename?: 'FlashcardWords', passed?: Maybe<boolean>, words?: Maybe<{ __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> } | { __typename?: 'FlashcardSentences', passed?: Maybe<boolean>, sentences?: Maybe<{ __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> }> };
 
 export type ChangePassMutationVariables = Exact<{
   token: Scalars['String'];
@@ -272,7 +269,7 @@ export type FindCharQuery = { __typename?: 'Query', findChar: Array<{ __typename
 export type LoggedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoggedQuery = { __typename?: 'Query', isLogged?: Maybe<{ __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename: 'Flashcards', passed?: Maybe<boolean>, characters?: Maybe<{ __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> } | { __typename: 'FlashcardWords', passed?: Maybe<boolean>, words?: Maybe<{ __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> } | { __typename: 'FlashcardSentences', passed?: Maybe<boolean>, sentences?: Maybe<{ __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> }> }> };
+export type LoggedQuery = { __typename?: 'Query', isLogged?: Maybe<{ __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename: 'Flashcards', passed?: Maybe<boolean>, characters: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } } | { __typename: 'FlashcardWords', passed?: Maybe<boolean>, words?: Maybe<{ __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> } | { __typename: 'FlashcardSentences', passed?: Maybe<boolean>, sentences?: Maybe<{ __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> }> }> };
 
 export const ErrorResponseFragmentDoc = gql`
     fragment ErrorResponse on ErrorResponse {
@@ -308,6 +305,39 @@ export const UserResponseFragmentDoc = gql`
   ... on Users {
     username
     email
+    createdAt
+    flashcard {
+      ... on Flashcards {
+        passed
+        characters {
+          char_detail {
+            character
+            pinyin
+            meaning
+          }
+        }
+      }
+      ... on FlashcardWords {
+        passed
+        words {
+          char_detail {
+            character
+            pinyin
+            meaning
+          }
+        }
+      }
+      ... on FlashcardSentences {
+        passed
+        sentences {
+          char_detail {
+            character
+            pinyin
+            meaning
+          }
+        }
+      }
+    }
   }
 }
     `;
