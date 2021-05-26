@@ -9,8 +9,8 @@ import {useFindCharQuery} from '../generated/graphql';
 
 
 const variants = {
-visible:{ display:'block',y:0, opacity:1, transition:{duration:0.3,delay:0.5, type:'tween'}},
-hidden:{display:'none',y:500,opacity:0}
+visible:{ display:'block',y:0, opacity:1, transition:{duration:0.3, delay:0.5, type:'tween'}},
+hidden:{display:'none',y:400,opacity:0}
 }
 
 

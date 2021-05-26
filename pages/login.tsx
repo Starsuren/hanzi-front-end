@@ -19,14 +19,14 @@ const Login = () => {
     const submitHandler = async ()=> {  
         const response = await login({
             variables:{logInputs:{username:loginForm.Name.value, password:loginForm.Password.value}} ,
-            update: (cache, { data }) => {
+            update: (cache, {data}) => {
                 if('username' in data!.login){
 
               cache.writeQuery<LoggedQuery>({
                 query:LoggedDocument,
                 data: {
                   __typename: "Query",
-                  isLogged: data?.login,
+                  isLogged: data?.login
                 },
               });
             }
