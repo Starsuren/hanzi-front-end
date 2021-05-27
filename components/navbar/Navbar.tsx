@@ -124,13 +124,14 @@ export const Navbar:React.VFC = () => {
         router.replace('/')
     } 
 
+    const openHandler = () => setIsOpen(!isOpen);
+
     const nav = ( <nav className={styles.nav}>
     <div className={styles.nav__menu}>
      <MainLinks open={isOpen} data={data} />
-     <BurgerMenu open={isOpen} clicked={()=>{
-     setIsOpen(!isOpen);}} />
+     <BurgerMenu open={isOpen} clicked={openHandler} />
      <div className={styles.nav__modal}></div>
-     <Modal showModal={isOpen} setModal={()=>setIsOpen(!isOpen)} />
+     <Modal showModal={isOpen} setModal={openHandler} />
      </div>
      </nav>)
     

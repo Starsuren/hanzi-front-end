@@ -16,7 +16,7 @@ const Modal:React.FC<{showModal:boolean,setModal:any}> = ({showModal,setModal}) 
   setMounted(true);
   }, [showModal])
 
- return mounted ? createPortal(<AnimatePresence> {showModal ? <motion.div onClick={setModal} exit={{opacity:0}}variants={variants} animate="visible" initial="hidden" className={classes.modal}></motion.div>:null} </AnimatePresence>,document.getElementById('portal')!):null; 
+ return mounted ? createPortal(<AnimatePresence>{showModal ? <motion.div onClick={setModal} exit={{opacity:0}}variants={variants} animate="visible" initial="hidden" className={classes.modal}></motion.div>:null} </AnimatePresence>,document.getElementById('portal')!):null; 
   }
 
 export default Modal;
