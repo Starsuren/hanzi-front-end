@@ -1,4 +1,4 @@
-export const Header:React.FC = ({children}) => (
+export const Header:React.FC<React.PropsWithChildren> = ({children}) => (
     <header>
         {children}
     </header>
