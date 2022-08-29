@@ -5,7 +5,15 @@ import generatedIntrospection from '../generated/fragment.json';
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   credentials:'include',
-  cache: new InMemoryCache({ possibleTypes: generatedIntrospection.possibleTypes})
+  name:'hanzi',
+  version:'1.0',
+  cache: new InMemoryCache({ possibleTypes: generatedIntrospection.possibleTypes}),
+  defaultOptions:{
+    watchQuery:{
+      nextFetchPolicy:'cache-only'
+    }
+  }
+
 });
 
 export default withApollo(client);

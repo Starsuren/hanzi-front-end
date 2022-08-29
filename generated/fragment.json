@@ -1,27 +1,27 @@
 {
   "possibleTypes": {
-    "flashResponse": [
-      "Flashcards",
-      "FlashcardWords",
-      "FlashcardSentences"
-    ],
     "CharCollection": [
       "Characters",
-      "Words",
-      "Sentences"
-    ],
-    "charResponse": [
-      "Characters",
-      "Words",
-      "Sentences"
-    ],
-    "regResponse": [
-      "Users",
-      "DatabaseError",
-      "ValidationErrors"
+      "Sentences",
+      "Words"
     ],
     "ErrorResponse": [
       "DatabaseError",
+      "ValidationErrors"
+    ],
+    "charResponse": [
+      "Characters",
+      "Sentences",
+      "Words"
+    ],
+    "flashResponse": [
+      "FlashcardSentences",
+      "FlashcardWords",
+      "Flashcards"
+    ],
+    "regResponse": [
+      "DatabaseError",
+      "Users",
       "ValidationErrors"
     ]
   }

@@ -4,11 +4,11 @@ export interface LogRegisterType {
 elementConfig:{ type:string, placeholder:string},value:string,validation:{required?:boolean,minLength?:number,maxLength?:number, isEmail?:boolean}, valid:boolean, touched:boolean}
 }
 
-export const LoginForm:LogRegisterType = { Name: {
-  elementType: 'input',
+export const loginForm:LogRegisterType = { username: {
+  elementType: 'username',
   elementConfig: {
     type: 'text',
-    placeholder: 'Name'
+    placeholder: 'Username'
   },
   value: '',
   validation: {
@@ -16,7 +16,7 @@ export const LoginForm:LogRegisterType = { Name: {
   },
   valid: false,
   touched: false
-},  Password: {
+},  password: {
   elementType: 'password',
   elementConfig: {
     type: 'password',
@@ -32,38 +32,39 @@ export const LoginForm:LogRegisterType = { Name: {
 };
 
 export const RegisterForm:LogRegisterType =
-{ Name: {
-      elementType: 'input',
+{ username: {
+      elementType: 'username',
       elementConfig: {
         type: 'text',
-        placeholder: 'Name'
+        placeholder: 'Username'
       },
       value: '',
       validation: {
         required: true,
-        maxLength:15
+        minLength:3,
+        maxLength:20
       },
       valid: false,
       touched: false
     }, 
     
-      Password: {
+      password: {
           elementType: 'password',
           elementConfig: {
-            type: 'text',
+            type: 'password',
             placeholder: 'Password'
           },
           value: '',
           validation: {
             required: true,
             minLength:8,
-            maxLength:20
+            maxLength:18
           },
           valid: false,
           touched: false
         },
         
-          Email: {
+          email: {
             elementType: 'email',
             elementConfig: {
               type: 'email',

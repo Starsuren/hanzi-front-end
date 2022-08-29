@@ -1,6 +1,6 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Input from '../components/input/Inputs';
-import {LoginForm} from '../utility/formConfig';
+import {loginForm as initialForm} from '../utility/formConfig';
 import {checkValidity, updateObject} from '../utility/validation';
 import {ChangeEvent } from 'react';
 import Button from '../components/button/Button';
@@ -8,24 +8,33 @@ import withApollo from '../utility/withApollo';
 import { useRouter } from "next/router";
 import {LoggedDocument, LoggedQuery, useLoginMutation} from '../generated/graphql';
 import styles from '../styles/login.module.scss';
+import {useIsAuth} from '../utility/useIsAuth';
+import Spinner from '../components/spinner/Spinner';
+import {motion, AnimatePresence} from 'framer-motion';
 
+ 
 const Login = () => {
     const router = useRouter();
-    const [loginForm,setLoginForm] = useState(LoginForm);
+    const [loginForm,setLoginForm] = useState(initialForm);
     const [formIsValid, setFormIsValid] = useState(false);
     const [login] = useLoginMutation();
     const [message,setMessage] = useState({message:''});
+    const [showComponents,setShowComponents] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
 
-    const submitHandler = async ()=> {  
+    useIsAuth(setShowComponents);
+    const Error = <div className={styles.main__container}><AnimatePresence>{message.message ?<motion.div exit={{opacity:0,x:20}} initial={{opacity:0,x:20}} animate={{opacity:1,x:0}}  transition={{type:'spring',duration:1,stiffness:30}} className={styles.main__error}>{message.message}</motion.div>:null}</AnimatePresence></div>
+
+    const submitHandler = async ()=> { 
         const response = await login({
-            variables:{logInputs:{username:loginForm.Name.value, password:loginForm.Password.value}} ,
+            variables:{logInputs:{username:loginForm.username.value, password:loginForm.password.value}} ,
             update: (cache, {data}) => {
                 if('username' in data!.login){
 
               cache.writeQuery<LoggedQuery>({
                 query:LoggedDocument,
                 data: {
-                  __typename: "Query",
+                  __typename:'Query',
                   isLogged: data?.login
                 },
               });
@@ -33,18 +42,19 @@ const Login = () => {
         }
     }, 
     );
+  setMessage({message:''});
+  setShowLoading(true);
+  setTimeout(() => {
+  if('username' in response.data!.login){router.push("/")}
 
-    if (typeof router.query.next === "string") {
-        router.push(router.query.next);
-    }
-    if('username' in response.data!.login){
-        router.push("/");
-    }
-
-    if('message' in response.data!.login)
-    {
-    setMessage(response.data!.login)
-    }
+  else if('message' in response.data!.login) {setMessage(response.data!.login);
+      setShowLoading(false);
+  }
+    
+    }, 3000);
+   
+  
+   
     }
 
 
@@ -77,11 +87,11 @@ const Login = () => {
         });
       }
     
-      let form = (
+      let Form = (
         <form className={styles.main__form} >
-           <h1>Welcome back!</h1>
-          {formElementsArray.map(formElement => (
-            <Input
+           <h1>Login</h1>
+          {formElementsArray.map(formElement => {
+            return(<Input
               key={formElement.id}
               id={formElement.id}
               elementType={formElement.config.elementType}
@@ -91,20 +101,21 @@ const Login = () => {
               shouldValidate={formElement.config.validation}
               touched={formElement.config.touched}
               changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
-            />
-          ))}
-          <Button clicked = {submitHandler}  btnType="Success" disabled={!formIsValid}>Login</Button>
+            />)
+})}    
+          {showLoading ? <Button btnType='loading' />  : <Button clicked = {submitHandler}  btnType="Success" disabled={!formIsValid}>Login</Button>}
         </form>
       );
     
-      return (
+      return ( 
         <div className={styles.main}>
-        { message.message ? message.message : false
-          }
-          {form}
+      {showComponents ?  
+        <>{Error} 
+          {Form}
+        </> : <Spinner/>}
         </div>
       );
     
       }
     
-      export default withApollo({ ssr: true })(Login);
+      export default withApollo({ssr:false})(Login);

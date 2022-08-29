@@ -12,17 +12,21 @@
     }
 
     &:disabled {
-        color: rgb(158, 158, 158);
+        color: rgb(201, 201, 201);
         cursor: not-allowed;
     }
 
-    
 &--Success {
     color: #ffffff;
 }
 
 &--Danger {
     color: #aa2424;
+}
+
+&--loading {
+    color: #ffffff;
+    padding: 20px;
 }
 
 }

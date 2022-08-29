@@ -6,18 +6,27 @@ import {ChangeEvent} from 'react';
 import Button from '../components/button/Button';
 import withApollo from '../utility/withApollo';
 import { useRouter } from 'next/router';
-import { useRegisterMutation,LoggedDocument,LoggedQuery } from "../generated/graphql";
+import { useRegisterMutation,LoggedDocument,LoggedQuery,useLoggedQuery} from "../generated/graphql";
+import styles from './../styles/register.module.scss';
+import {useIsAuth} from '../utility/useIsAuth';
+import Spinner from '../components/spinner/Spinner';
+import {motion, AnimatePresence} from 'framer-motion';
 
 const Register = () => {
 const [register] = useRegisterMutation();
 const [registerForm,setRegisterForm] = useState(RegisterForm);
 const [formIsValid, setFormIsValid] = useState(false);
 const [message,setMessage] = useState({message:''});
-
 const router = useRouter();
+const [showComponents,setShowComponents] = useState(false);
+const [showLoading, setShowLoading] = useState(false);
+useIsAuth(setShowComponents);
+
+const Error = <div className={styles.main__container}><AnimatePresence>{message.message ?<motion.div exit={{opacity:0,x:20}} initial={{opacity:0,x:20}} animate={{opacity:1,x:0}}  transition={{type:'spring',duration:1,stiffness:30}} className={styles.main__error}>{message.message}</motion.div>:null}</AnimatePresence></div>
+
 const submitHandler = async () => { 
     const response = await register({
-        variables:{regInputs:{username:registerForm.Name.value, password:registerForm.Password.value, email:registerForm.Email.value}} ,
+        variables:{regInputs:{username:registerForm.username.value, password:registerForm.password.value, email:registerForm.email.value}} ,
         update: (cache, { data }) => {
             if('username' in data!.register){
 
@@ -25,7 +34,7 @@ const submitHandler = async () => {
             query:LoggedDocument,
             data: {
               __typename: "Query",
-              isLogged: data?.register,
+              isLogged: data?.register
             },
           });
         }
@@ -33,14 +42,16 @@ const submitHandler = async () => {
 }, 
 );
 
-if('username' in response.data!.register){
-    router.push("/");
-}
+setMessage({message:''});
+setShowLoading(true);
+setTimeout(() => {
+if('username' in response.data!.register){router.push("/")}
 
-if('message' in response.data!.register)
-{
-setMessage(response.data!.register)
+else if('message' in response.data!.register) {setMessage(response.data!.register);
+    setShowLoading(false);
 }
+  
+  }, 3000);
 
 }
 
@@ -73,10 +84,12 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
     });
   }
 
-  let form = (
-    <form >
-      {formElementsArray.map(formElement => (
-        <Input
+  let Form = (
+    <form className={styles.main__form} >
+       <h1>Sign-up</h1>
+       <p>Create a new account</p>
+      {formElementsArray.map(formElement => {
+        return(<Input
           key={formElement.id}
           id={formElement.id}
           elementType={formElement.config.elementType}
@@ -86,21 +99,22 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
           shouldValidate={formElement.config.validation}
           touched={formElement.config.touched}
           changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
-        />
-      ))}
-      <Button clicked = {submitHandler} btnType="Success" disabled={!formIsValid}>Submit</Button>
-     
+        />)
+})}
+      
+      {showLoading ? <Button btnType='loading' />  : <Button clicked = {submitHandler}  btnType="Success" disabled={!formIsValid}>Login</Button>}
     </form>
   );
 
-  return (
-    <div>
-      <h1>Enter your user details</h1>
-      { message.message ? message.message : false}
-      {form}
+  return ( 
+    <div className={styles.main}>
+  {showComponents ?  
+    <>{Error} 
+      {Form}
+    </> : <Spinner/>}
     </div>
   );
 
   }
 
-  export default withApollo({ ssr: true })(Register);
+  export default withApollo({ ssr: false })(Register);

@@ -1,6 +1,8 @@
 import '../styles/globals.scss'
 import {Layout} from '../components/Layout'
 import withApollo from '../utility/withApollo';
+import {lazy} from 'react';
+ 
 
 function MyApp({ Component, pageProps }:any) {
   return (

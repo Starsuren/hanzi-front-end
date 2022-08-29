@@ -1,9 +1,11 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -11,70 +13,48 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
   DateTime: any;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  isLogged?: Maybe<Users>;
-  findChar: Array<CharResponse>;
-};
-
-
-export type QueryFindCharArgs = {
-  options: Options;
-  char: Array<Scalars['String']>;
-};
-
-export type Users = {
-  __typename?: 'Users';
+export type CharCollection = {
+  char_detail: Common;
   id: Scalars['Float'];
-  username: Scalars['String'];
-  email: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  updatedAt: Scalars['DateTime'];
-  flashcard: Array<FlashResponse>;
-};
-
-
-export type FlashResponse = Flashcards | FlashcardWords | FlashcardSentences;
-
-export type Flashcards = {
-  __typename?: 'Flashcards';
-  passed?: Maybe<Scalars['Boolean']>;
-  characters: Characters;
 };
 
 export type Characters = CharCollection & {
   __typename?: 'Characters';
-  id: Scalars['Float'];
   char_detail: Common;
+  id: Scalars['Float'];
   variant?: Maybe<Scalars['String']>;
-};
-
-export type CharCollection = {
-  id: Scalars['Float'];
-  char_detail: Common;
 };
 
 export type Common = {
   __typename?: 'Common';
   character: Scalars['String'];
-  pinyin: Scalars['String'];
   meaning: Scalars['String'];
+  pinyin: Scalars['String'];
 };
 
-export type FlashcardWords = {
-  __typename?: 'FlashcardWords';
-  passed?: Maybe<Scalars['Boolean']>;
-  words?: Maybe<Words>;
+export type Constraints = {
+  __typename?: 'Constraints';
+  isEmail: Scalars['String'];
+  isNotEmpty: Scalars['String'];
+  length: Scalars['String'];
+  maxLength: Scalars['String'];
 };
 
-export type Words = CharCollection & {
-  __typename?: 'Words';
-  id: Scalars['Float'];
-  char_detail: Common;
+export type DatabaseError = ErrorResponse & {
+  __typename?: 'DatabaseError';
+  message: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type EmailInput = {
+  email: Scalars['String'];
+};
+
+export type ErrorResponse = {
+  message: Scalars['String'];
 };
 
 export type FlashcardSentences = {
@@ -83,39 +63,41 @@ export type FlashcardSentences = {
   sentences?: Maybe<Sentences>;
 };
 
-export type Sentences = CharCollection & {
-  __typename?: 'Sentences';
-  id: Scalars['Float'];
-  char_detail: Common;
-  chengyu: Scalars['Boolean'];
+export type FlashcardWords = {
+  __typename?: 'FlashcardWords';
+  passed?: Maybe<Scalars['Boolean']>;
+  words?: Maybe<Words>;
 };
 
-export type CharResponse = Characters | Words | Sentences;
+export type Flashcards = {
+  __typename?: 'Flashcards';
+  characters?: Maybe<Characters>;
+  passed?: Maybe<Scalars['Boolean']>;
+};
 
-export type Options = {
-  characters: Scalars['Boolean'];
-  words: Scalars['Boolean'];
-  sentences: Scalars['Boolean'];
+export type LoginInputs = {
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  forgotPass: Scalars['Boolean'];
   changePass: RegResponse;
-  logout: Scalars['Boolean'];
+  forgotPass: Scalars['Boolean'];
   login: RegResponse;
+  logout: Scalars['Boolean'];
   register: RegResponse;
-};
-
-
-export type MutationForgotPassArgs = {
-  emailInput: EmailInput;
 };
 
 
 export type MutationChangePassArgs = {
   password: PasswordInput;
   token: Scalars['String'];
+};
+
+
+export type MutationForgotPassArgs = {
+  emailInput: EmailInput;
 };
 
 
@@ -128,20 +110,49 @@ export type MutationRegisterArgs = {
   regInputs: RegInputs;
 };
 
-export type EmailInput = {
+export type Options = {
+  characters: Scalars['Boolean'];
+  sentences: Scalars['Boolean'];
+  words: Scalars['Boolean'];
+};
+
+export type PasswordInput = {
+  password: Scalars['String'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  findChar: Array<CharResponse>;
+  isLogged?: Maybe<Users>;
+};
+
+
+export type QueryFindCharArgs = {
+  char: Array<Scalars['String']>;
+  options: Options;
+};
+
+export type RegInputs = {
   email: Scalars['String'];
+  password: Scalars['String'];
+  username: Scalars['String'];
 };
 
-export type RegResponse = Users | DatabaseError | ValidationErrors;
-
-export type DatabaseError = ErrorResponse & {
-  __typename?: 'DatabaseError';
-  message: Scalars['String'];
-  type: Scalars['String'];
+export type Sentences = CharCollection & {
+  __typename?: 'Sentences';
+  char_detail: Common;
+  chengyu: Scalars['Boolean'];
+  id: Scalars['Float'];
 };
 
-export type ErrorResponse = {
-  message: Scalars['String'];
+export type Users = {
+  __typename?: 'Users';
+  createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  flashcard: Array<FlashResponse>;
+  id: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+  username: Scalars['String'];
 };
 
 export type ValidationErrors = ErrorResponse & {
@@ -152,32 +163,21 @@ export type ValidationErrors = ErrorResponse & {
 
 export type ValidationResponse = {
   __typename?: 'ValidationResponse';
-  property: Scalars['String'];
   constraints: Constraints;
+  property: Scalars['String'];
 };
 
-export type Constraints = {
-  __typename?: 'Constraints';
-  length: Scalars['String'];
-  isEmail: Scalars['String'];
-  isNotEmpty: Scalars['String'];
-  maxLength: Scalars['String'];
+export type Words = CharCollection & {
+  __typename?: 'Words';
+  char_detail: Common;
+  id: Scalars['Float'];
 };
 
-export type PasswordInput = {
-  password: Scalars['String'];
-};
+export type CharResponse = Characters | Sentences | Words;
 
-export type LoginInputs = {
-  username: Scalars['String'];
-  password: Scalars['String'];
-};
+export type FlashResponse = FlashcardSentences | FlashcardWords | Flashcards;
 
-export type RegInputs = {
-  username: Scalars['String'];
-  password: Scalars['String'];
-  email: Scalars['String'];
-};
+export type RegResponse = DatabaseError | Users | ValidationErrors;
 
 type ErrorResponse_DatabaseError_Fragment = { __typename?: 'DatabaseError', message: string };
 
@@ -185,11 +185,11 @@ type ErrorResponse_ValidationErrors_Fragment = { __typename?: 'ValidationErrors'
 
 export type ErrorResponseFragment = ErrorResponse_DatabaseError_Fragment | ErrorResponse_ValidationErrors_Fragment;
 
-export type DatabaseResponseFragment = { __typename?: 'DatabaseError', type: string };
+export type DatabaseResponseFragment = { __typename?: 'DatabaseError', message: string };
 
-export type ValidationResponseFragment = { __typename?: 'ValidationErrors', responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> };
+export type ValidationResponseFragment = { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> };
 
-export type UserResponseFragment = { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'Flashcards', passed?: Maybe<boolean>, characters: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } } | { __typename?: 'FlashcardWords', passed?: Maybe<boolean>, words?: Maybe<{ __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> } | { __typename?: 'FlashcardSentences', passed?: Maybe<boolean>, sentences?: Maybe<{ __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> }> };
+export type UserResponseFragment = { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> };
 
 export type ChangePassMutationVariables = Exact<{
   token: Scalars['String'];
@@ -197,18 +197,7 @@ export type ChangePassMutationVariables = Exact<{
 }>;
 
 
-export type ChangePassMutation = { __typename?: 'Mutation', changePass: (
-    { __typename?: 'Users' }
-    & UserResponseFragment
-  ) | (
-    { __typename?: 'DatabaseError' }
-    & ErrorResponse_DatabaseError_Fragment
-    & DatabaseResponseFragment
-  ) | (
-    { __typename?: 'ValidationErrors' }
-    & ErrorResponse_ValidationErrors_Fragment
-    & ValidationResponseFragment
-  ) };
+export type ChangePassMutation = { __typename?: 'Mutation', changePass: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   emailInput: EmailInput;
@@ -222,18 +211,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: (
-    { __typename?: 'Users' }
-    & UserResponseFragment
-  ) | (
-    { __typename?: 'DatabaseError' }
-    & ErrorResponse_DatabaseError_Fragment
-    & DatabaseResponseFragment
-  ) | (
-    { __typename?: 'ValidationErrors' }
-    & ErrorResponse_ValidationErrors_Fragment
-    & ValidationResponseFragment
-  ) };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -245,18 +223,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: (
-    { __typename?: 'Users' }
-    & UserResponseFragment
-  ) | (
-    { __typename?: 'DatabaseError' }
-    & ErrorResponse_DatabaseError_Fragment
-    & DatabaseResponseFragment
-  ) | (
-    { __typename?: 'ValidationErrors' }
-    & ErrorResponse_ValidationErrors_Fragment
-    & ValidationResponseFragment
-  ) };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> } };
 
 export type FindCharQueryVariables = Exact<{
   char: Array<Scalars['String']> | Scalars['String'];
@@ -264,12 +231,12 @@ export type FindCharQueryVariables = Exact<{
 }>;
 
 
-export type FindCharQuery = { __typename?: 'Query', findChar: Array<{ __typename: 'Characters', variant?: Maybe<string>, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Sentences', chengyu: boolean, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> };
+export type FindCharQuery = { __typename?: 'Query', findChar: Array<{ __typename: 'Characters', variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Sentences', chengyu: boolean, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> };
 
 export type LoggedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoggedQuery = { __typename?: 'Query', isLogged?: Maybe<{ __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename: 'Flashcards', passed?: Maybe<boolean>, characters: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } } | { __typename: 'FlashcardWords', passed?: Maybe<boolean>, words?: Maybe<{ __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> } | { __typename: 'FlashcardSentences', passed?: Maybe<boolean>, sentences?: Maybe<{ __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> }> }> };
+export type LoggedQuery = { __typename?: 'Query', isLogged?: { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | null };
 
 export const ErrorResponseFragmentDoc = gql`
     fragment ErrorResponse on ErrorResponse {
@@ -281,13 +248,14 @@ export const ErrorResponseFragmentDoc = gql`
 export const DatabaseResponseFragmentDoc = gql`
     fragment DatabaseResponse on DatabaseError {
   ... on DatabaseError {
-    type
+    message
   }
 }
     `;
 export const ValidationResponseFragmentDoc = gql`
     fragment ValidationResponse on ValidationErrors {
   ... on ValidationErrors {
+    message
     responses {
       property
       constraints {
@@ -375,7 +343,8 @@ export type ChangePassMutationFn = Apollo.MutationFunction<ChangePassMutation, C
  * });
  */
 export function useChangePassMutation(baseOptions?: Apollo.MutationHookOptions<ChangePassMutation, ChangePassMutationVariables>) {
-        return Apollo.useMutation<ChangePassMutation, ChangePassMutationVariables>(ChangePassDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePassMutation, ChangePassMutationVariables>(ChangePassDocument, options);
       }
 export type ChangePassMutationHookResult = ReturnType<typeof useChangePassMutation>;
 export type ChangePassMutationResult = Apollo.MutationResult<ChangePassMutation>;
@@ -405,7 +374,8 @@ export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMut
  * });
  */
 export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
-        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
       }
 export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
 export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
@@ -443,7 +413,8 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  * });
  */
 export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
       }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
@@ -472,7 +443,8 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  * });
  */
 export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
       }
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
@@ -510,7 +482,8 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  * });
  */
 export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
       }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
@@ -554,10 +527,12 @@ export const FindCharDocument = gql`
  * });
  */
 export function useFindCharQuery(baseOptions: Apollo.QueryHookOptions<FindCharQuery, FindCharQueryVariables>) {
-        return Apollo.useQuery<FindCharQuery, FindCharQueryVariables>(FindCharDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindCharQuery, FindCharQueryVariables>(FindCharDocument, options);
       }
 export function useFindCharLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindCharQuery, FindCharQueryVariables>) {
-          return Apollo.useLazyQuery<FindCharQuery, FindCharQueryVariables>(FindCharDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindCharQuery, FindCharQueryVariables>(FindCharDocument, options);
         }
 export type FindCharQueryHookResult = ReturnType<typeof useFindCharQuery>;
 export type FindCharLazyQueryHookResult = ReturnType<typeof useFindCharLazyQuery>;
@@ -569,7 +544,6 @@ export const LoggedDocument = gql`
     email
     createdAt
     flashcard {
-      __typename
       ... on Flashcards {
         passed
         characters {
@@ -621,10 +595,12 @@ export const LoggedDocument = gql`
  * });
  */
 export function useLoggedQuery(baseOptions?: Apollo.QueryHookOptions<LoggedQuery, LoggedQueryVariables>) {
-        return Apollo.useQuery<LoggedQuery, LoggedQueryVariables>(LoggedDocument, baseOptions);
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LoggedQuery, LoggedQueryVariables>(LoggedDocument, options);
       }
 export function useLoggedLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoggedQuery, LoggedQueryVariables>) {
-          return Apollo.useLazyQuery<LoggedQuery, LoggedQueryVariables>(LoggedDocument, baseOptions);
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LoggedQuery, LoggedQueryVariables>(LoggedDocument, options);
         }
 export type LoggedQueryHookResult = ReturnType<typeof useLoggedQuery>;
 export type LoggedLazyQueryHookResult = ReturnType<typeof useLoggedLazyQuery>;

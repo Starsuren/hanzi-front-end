@@ -1,9 +1,8 @@
 import React  from 'react';
 import Link from 'next/link';
-import PropTypes from 'prop-types';
-import { useRouter} from 'next/router';
+import {useRouter} from 'next/router';
 
-const ActiveLink = ({ href, activeClassName, children }:any) => {
+const ActiveLink = ({ href, activeClassName, children }:{href:string; activeClassName:string; children:any}) => {
   const router = useRouter();
   const child = React.Children.only(children);
 
@@ -15,14 +14,6 @@ const ActiveLink = ({ href, activeClassName, children }:any) => {
   return <Link href={href}>{React.cloneElement(child, { className })}</Link>;
 };
 
-ActiveLink.propTypes = {
-  href: PropTypes.string,
-  activeClassName: PropTypes.string,
-  children: PropTypes.node.isRequired
-};
-ActiveLink.defaultProps = {
-  href: '',
-  activeClassName: ''
-};
+
 
 export default ActiveLink;

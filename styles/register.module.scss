@@ -1,0 +1,18 @@
+@use '../styles/var-mixins' as vam;
+
+ @include vam.forms;
+ 
+
+ .main__form{ 
+& h1{
+margin-bottom:0.5rem;
+}
+
+    & p{
+font-size: 0.8rem;
+padding:0;
+margin:0;
+margin-bottom: 0.7rem; 
+color: rgba($color: #4e4e4e, $alpha: 1.0);
+    }
+}

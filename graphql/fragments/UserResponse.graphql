@@ -1,6 +1,7 @@
 fragment UserResponse on Users {
 ...on Users {
-username email createdAt flashcard{
+username email createdAt flashcard
+{
   ...on Flashcards{passed characters{char_detail {character pinyin meaning}}}
   ...on FlashcardWords{passed words{char_detail {character pinyin meaning}}}
   ...on FlashcardSentences{passed sentences{char_detail {character pinyin meaning}}}

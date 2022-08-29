@@ -5,10 +5,15 @@ fragment ErrorResponse on ErrorResponse {
 }
 
 fragment DatabaseResponse on DatabaseError {
-  ...on DatabaseError{type}
+  ...on DatabaseError{
+    message
+        }
 }
 
 
 fragment ValidationResponse on ValidationErrors {
-  ...on ValidationErrors{responses{property constraints{length isEmail isNotEmpty maxLength}}}
+  ...on ValidationErrors{
+    message
+    responses{property constraints{length isEmail isNotEmpty maxLength}}
+        }
 }

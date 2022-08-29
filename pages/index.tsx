@@ -7,16 +7,16 @@ import {motion, AnimatePresence} from 'framer-motion';
 import { valueFromAST } from 'graphql';
 import {useFindCharQuery} from '../generated/graphql';
 import Modal from '../components/UI/Modal';
-
+import * as React from 'react';
 const variants = {
 visible:{ display:'block',y:0, opacity:1, transition:{duration:0.3, delay:0.5, type:'tween'}},
 hidden:{display:'none',y:400,opacity:0}
 }
 
 const Results:React.FC<{openHandler:()=>void, isOpen:boolean}>  = ({openHandler,isOpen})=> {
-const itemRef = useRef([]);
+const itemRef = useRef<Array<HTMLDivElement | null>>([]);
 
-const items = isOpen ? <div></div> : (<><div className={styles.main__box__results__item}>
+const items = (<><div className={styles.main__box__results__item}>
   <div className={styles.main__box__results__item__text}>
   <span>中文</span>
   <span>zhongwen</span>
@@ -34,15 +34,15 @@ const items = isOpen ? <div></div> : (<><div className={styles.main__box__result
   </div>
   </div>
   
-  <div className={styles.main__box__results__item} onClick={openHandler}>
+  <div ref={(e)=>itemRef.current.push(e) } className={styles.main__box__results__item} onClick={openHandler}>
   <div className={styles.main__box__results__item__text}>
   <span>中文</span>
   <span>zhongwen</span>
   <span>Chinese Languag  kjkds jdkjd kjkds eklk 
   ddadaddd anklnk lnkl ddgfgdf hdhfd hgdg</span>
   </div>
-  </div></>)
-
+  </div>
+  </>)
 return items;
    
 }
@@ -77,8 +77,8 @@ const Home =  ()=>  {
       <main className={styles.main}>
       <AnimatePresence >
         {state===null &&  
-      <motion.div exit={{opacity:0,width:0,height:0,transition:{velocity:20, duration:0.4,delay:0.3,type:'tween'}}} className={styles.main__box}>
-      <motion.div exit={{opacity:0,transition:{ velocity:50, type:'tween'}}} className={styles.main__intro}>
+      <motion.div exit={{opacity:0,width:0,height:0,transition:{ duration:0.4,delay:0.3,type:'tween'}}} className={styles.main__box}>
+      <motion.div exit={{opacity:0,transition:{ type:'tween'}}} className={styles.main__intro}>
           <h1>Hanzi</h1>
           <p>A comprehensive Chinese dictionary for English translations of common Chinese words and phrases.</p>
         </motion.div>
@@ -115,5 +115,5 @@ const Home =  ()=>  {
   )
 }
 
-  export default withApollo({ ssr: true })(Home);
+  export default withApollo({ ssr: false })(Home);
 

@@ -7,6 +7,7 @@ import ActiveLink from './ActiveLink';
 import {motion,AnimatePresence,useCycle } from 'framer-motion';
 import {useState} from 'react';
 import styles from './Navbar.module.scss'
+import Spinner from '../spinner/Spinner'
 
 const containerVariants = {
     hidden:{
@@ -68,17 +69,14 @@ className={styles.nav__menu__burger}>
 </motion.div>
 )
 
-const MainLinks:React.FC<{open:boolean, data:LoggedQuery|undefined}> = ({open, data})=>{ 
+const MainLinks:React.FC<{open:boolean, data:{loading:boolean,logged:LoggedQuery|undefined}}> = ({open, data})=>{ 
 
     let loggedUser = null;
-    if(data?.isLogged !== undefined){
-    loggedUser = data.isLogged?.username;
+    if(data?.logged?.isLogged !== undefined){
+    loggedUser = data.logged.isLogged?.username;
     }
 
-
-
- const aniLink = (
-        <motion.ul exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>
+     const BaseLinks =(<>
         <li> 
         <ActiveLink href="/" activeClassName={styles.active}><a>Home</a></ActiveLink>
         </li> 
@@ -89,33 +87,24 @@ const MainLinks:React.FC<{open:boolean, data:LoggedQuery|undefined}> = ({open, d
         <ActiveLink href="/login" activeClassName={styles.active}><a>Login</a></ActiveLink>
         </li>
         <li>
-        <ActiveLink href="/register" activeClassName={styles['active--button']}><a>Register</a></ActiveLink>
-        </li></> }
-        </motion.ul>);
-        
-     const link = (<ul>
-        <li> 
-        <ActiveLink href="/" activeClassName={styles.active}><a>Home</a></ActiveLink>
-        </li> 
-        {loggedUser ? <li>   
-        <ActiveLink href="/user/" activeClassName={styles.active}><a>{loggedUser}</a></ActiveLink>
-        </li>:
-        <><li>   
-        <ActiveLink href="/login" activeClassName={styles.active}><a>Login</a></ActiveLink>
+        <ActiveLink href="/register" activeClassName={styles['active--button']}>{open?<a>Register</a>:<button>Register</button>}</ActiveLink>
         </li>
-        <li>
-        <ActiveLink href="/register" activeClassName={styles['active--button']}><button>Register</button></ActiveLink>
-        </li></>}
-        </ul>);
- 
- return <AnimatePresence>{open? aniLink:link}</AnimatePresence>;
+        </>}
+        </>)
+
+
+     const AniLinks = <AnimatePresence>{open?<motion.ul exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>{BaseLinks}</motion.ul>:
+     <motion.ul initial={{scale:0.5, opacity:0}} animate={{scale:1, opacity:1}}>{BaseLinks}</motion.ul>}</AnimatePresence>;
+
+
+ return data.loading ? <Spinner/> : AniLinks;
 }
 
-export const Navbar:React.VFC = () => {
+export const Navbar:React.FC = () => {
     const [cycle,runCycle] = useCycle('visible','visibleTwo')
     const [isOpen, setIsOpen] = useState(false);
     const [logout, { loading: logoutLoading }] = useLogoutMutation();
-    const { data, loading } = useLoggedQuery();
+    const { data, loading } = useLoggedQuery( {ssr:false});
     const router = useRouter()
     const apolloClient = useApolloClient();
     const logoutHandler = async () => {
@@ -128,7 +117,7 @@ export const Navbar:React.VFC = () => {
 
     const nav = ( <nav className={styles.nav}>
     <div className={styles.nav__menu}>
-     <MainLinks open={isOpen} data={data} />
+     <MainLinks open={isOpen} data={{loading,logged:data}} />
      <BurgerMenu open={isOpen} clicked={openHandler} />
      <div className={styles.nav__modal}></div>
      <Modal showModal={isOpen} setModal={openHandler} />

@@ -17,3 +17,5 @@ generates:
       module: commonjs
       apolloClientVersion: 3
       preResolveTypes: true
+
+    
