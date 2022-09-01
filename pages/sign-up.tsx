@@ -6,8 +6,8 @@ import {ChangeEvent} from 'react';
 import Button from '../components/button/Button';
 import withApollo from '../utility/withApollo';
 import { useRouter } from 'next/router';
-import { useRegisterMutation,LoggedDocument,LoggedQuery,useLoggedQuery} from "../generated/graphql";
-import styles from './../styles/register.module.scss';
+import { RegisterMutation, useRegisterMutation,LoggedDocument,LoggedQuery} from "../generated/graphql";
+import styles from './../styles/sign-up.module.scss';
 import {useIsAuth} from '../utility/useIsAuth';
 import Spinner from '../components/spinner/Spinner';
 import {motion, AnimatePresence} from 'framer-motion';
@@ -16,13 +16,18 @@ const Register = () => {
 const [register] = useRegisterMutation();
 const [registerForm,setRegisterForm] = useState(RegisterForm);
 const [formIsValid, setFormIsValid] = useState(false);
-const [message,setMessage] = useState({message:''});
+const [message,setMessage] = useState<RegisterMutation>({register:{message:''}});
 const router = useRouter();
 const [showComponents,setShowComponents] = useState(false);
 const [showLoading, setShowLoading] = useState(false);
 useIsAuth(setShowComponents);
 
-const Error = <div className={styles.main__container}><AnimatePresence>{message.message ?<motion.div exit={{opacity:0,x:20}} initial={{opacity:0,x:20}} animate={{opacity:1,x:0}}  transition={{type:'spring',duration:1,stiffness:30}} className={styles.main__error}>{message.message}</motion.div>:null}</AnimatePresence></div>
+const errorMsg = 'message' in message!.register && message!.register.message;
+
+const Error = (<div className={styles.main__container}>
+  <AnimatePresence>{errorMsg ?
+    <motion.div key="error" exit={{opacity:0,x:20}} initial={{opacity:0,x:20}} animate={{opacity:1,x:0}}  transition={{type:'spring',duration:1,stiffness:30}} 
+    className={styles.main__error}>{errorMsg}</motion.div> : null}</AnimatePresence></div>)
 
 const submitHandler = async () => { 
     const response = await register({
@@ -42,17 +47,16 @@ const submitHandler = async () => {
 }, 
 );
 
-setMessage({message:''});
+setMessage({register:{message:''}});
 setShowLoading(true);
 setTimeout(() => {
 if('username' in response.data!.register){router.push("/")}
 
-else if('message' in response.data!.register) {setMessage(response.data!.register);
-    setShowLoading(false);
+else if('message' in response.data!.register) {
+  setMessage({...response.data!});
+  setShowLoading(false);
 }
-  
-  }, 3000);
-
+}, 3000);
 }
 
 const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifier:string) => {
@@ -99,6 +103,7 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
           shouldValidate={formElement.config.validation}
           touched={formElement.config.touched}
           changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
+          validateMsg={message}
         />)
 })}
       

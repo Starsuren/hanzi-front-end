@@ -5,7 +5,7 @@ import classes from './Button.module.scss';
 const DEFAULT_PROPS = {disabled:false,btnType:'success',clicked:()=>{}}
 const Button:React.FC<PropsWithChildren & {disabled?:boolean,btnType?:string,clicked?:()=>void}> = (props = DEFAULT_PROPS) => {
     if(props.btnType ==='loading') {
-return <motion.button
+return <motion.button style={{padding:'19.5px',marginTop:'15px'}}
 transition={{
     duration: 3,
     ease: "easeInOut",

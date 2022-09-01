@@ -87,7 +87,7 @@ const MainLinks:React.FC<{open:boolean, data:{loading:boolean,logged:LoggedQuery
         <ActiveLink href="/login" activeClassName={styles.active}><a>Login</a></ActiveLink>
         </li>
         <li>
-        <ActiveLink href="/register" activeClassName={styles['active--button']}>{open?<a>Register</a>:<button>Register</button>}</ActiveLink>
+        <ActiveLink href="/sign-up" activeClassName={styles['active--button']}>{open?<a>Sign-up</a>:<button>Sign-up</button>}</ActiveLink>
         </li>
         </>}
         </>)

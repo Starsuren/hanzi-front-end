@@ -1,0 +1,39 @@
+@use '../../styles/var-mixins' as vam;
+
+$error-color: #ff0000;
+$tooltip-distance: 30%;
+.tooltip{
+
+display: block;
+
+
+&__main{
+color:rgb(7, 7, 7);
+padding-left: 5px;
+padding-right: 5px;
+font-size: 0.85rem;
+position: relative;
+max-width: 210px;
+transform: translateY(6px);
+background-color: rgba($error-color, $alpha: 0.1);
+border-radius: 3px;
+border: 1px rgba($color:$error-color, $alpha: 0.6) solid;
+word-wrap: break-word;
+
+
+& ul{
+padding-left: 11px;
+margin-top: 3px;
+margin-bottom: 3px;
+}
+}
+
+&::before{
+position: absolute;
+content:"";
+transform:translateY(-30%) translateX(-30%);
+left: 50%;
+border: 5px solid transparent;
+border-bottom-color: rgba($color: $error-color, $alpha: 0.6);
+}
+}

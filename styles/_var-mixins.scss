@@ -22,9 +22,7 @@ $colour-rouge:rgb(233, 101, 101);
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height:80vh;
         position: relative;
-        overflow: scroll;
         
         &__container{
           display:flex;
@@ -32,6 +30,7 @@ $colour-rouge:rgb(233, 101, 101);
           position:relative;  
           width:60%;
           align-items: center;
+          min-height:4rem;
         }
          
         &__error{
@@ -39,10 +38,10 @@ $colour-rouge:rgb(233, 101, 101);
         color: rgb(51, 51, 51);
         min-width: 10%;
         min-height: 5%;
-        margin-bottom:2rem;
-        position:absolute;
+        margin-top: 2rem;
+        position:relative;
         margin-left: 0.5rem;
-        bottom:10px;
+       
         &::before{
         content: ' ';
         position:absolute;
@@ -70,8 +69,8 @@ $colour-rouge:rgb(233, 101, 101);
             max-width:50%;
             min-width: 18rem;
             border-radius: 7px; 
+            margin-top: 3rem;
             box-shadow: 1px 6px 10px rgba($color:$maincolor, $alpha: 0.3);
-           
           &::before, &::after {
               content: '';
               top: -525px;
@@ -119,8 +118,17 @@ $colour-rouge:rgb(233, 101, 101);
         color:rgb(66, 66, 66);
         margin:0.8rem;
         font-size: 1.6rem;
-         
+        margin-bottom:0.5rem;
         }
+ 
+          
+           & p{
+          font-size: 0.8rem;
+          padding:0;
+          margin:0;
+          margin-bottom: 0.7rem; 
+          color: rgba($color: #4e4e4e, $alpha: 1.0);
+              }
         
         
         & input{

@@ -1,7 +1,7 @@
 
 export interface LogRegisterType {
 [key:string]:{ elementType:string, 
-elementConfig:{ type:string, placeholder:string},value:string,validation:{required?:boolean,minLength?:number,maxLength?:number, isEmail?:boolean}, valid:boolean, touched:boolean}
+elementConfig:{ type:string, placeholder:string},value:string,validation:{required?:boolean,minLength?:number,maxLength?:number, isEmail?:boolean, matches?:boolean}, valid:boolean, touched:boolean}
 }
 
 export const loginForm:LogRegisterType = { username: {
@@ -41,7 +41,6 @@ export const RegisterForm:LogRegisterType =
       value: '',
       validation: {
         required: true,
-        minLength:3,
         maxLength:20
       },
       valid: false,
@@ -58,7 +57,8 @@ export const RegisterForm:LogRegisterType =
           validation: {
             required: true,
             minLength:8,
-            maxLength:18
+            maxLength:18,
+            matches:true,
           },
           valid: false,
           touched: false

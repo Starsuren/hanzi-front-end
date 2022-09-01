@@ -35,22 +35,26 @@ export type Common = {
   pinyin: Scalars['String'];
 };
 
-export type Constraints = {
-  __typename?: 'Constraints';
-  isEmail: Scalars['String'];
-  isNotEmpty: Scalars['String'];
-  length: Scalars['String'];
-  maxLength: Scalars['String'];
-};
-
 export type DatabaseError = ErrorResponse & {
   __typename?: 'DatabaseError';
   message: Scalars['String'];
   type: Scalars['String'];
 };
 
+export type EmailConstraint = {
+  __typename?: 'EmailConstraint';
+  isEmail?: Maybe<Scalars['String']>;
+  isNotEmpty?: Maybe<Scalars['String']>;
+};
+
 export type EmailInput = {
   email: Scalars['String'];
+};
+
+export type EmailValidation = {
+  __typename?: 'EmailValidation';
+  constraints: EmailConstraint;
+  property: Scalars['String'];
 };
 
 export type ErrorResponse = {
@@ -116,8 +120,21 @@ export type Options = {
   words: Scalars['Boolean'];
 };
 
+export type PasswordConstraint = {
+  __typename?: 'PasswordConstraint';
+  isLength?: Maybe<Scalars['String']>;
+  isNotEmpty?: Maybe<Scalars['String']>;
+  matches?: Maybe<Scalars['String']>;
+};
+
 export type PasswordInput = {
   password: Scalars['String'];
+};
+
+export type PasswordValidation = {
+  __typename?: 'PasswordValidation';
+  constraints: PasswordConstraint;
+  property: Scalars['String'];
 };
 
 export type Query = {
@@ -145,6 +162,18 @@ export type Sentences = CharCollection & {
   id: Scalars['Float'];
 };
 
+export type UserConstraint = {
+  __typename?: 'UserConstraint';
+  isNotEmpty?: Maybe<Scalars['String']>;
+  maxLength?: Maybe<Scalars['String']>;
+};
+
+export type UserValidation = {
+  __typename?: 'UserValidation';
+  constraints: UserConstraint;
+  property: Scalars['String'];
+};
+
 export type Users = {
   __typename?: 'Users';
   createdAt: Scalars['DateTime'];
@@ -161,11 +190,7 @@ export type ValidationErrors = ErrorResponse & {
   responses: Array<ValidationResponse>;
 };
 
-export type ValidationResponse = {
-  __typename?: 'ValidationResponse';
-  constraints: Constraints;
-  property: Scalars['String'];
-};
+export type ValidationResponse = EmailValidation | PasswordValidation | UserValidation;
 
 export type Words = CharCollection & {
   __typename?: 'Words';
@@ -187,7 +212,7 @@ export type ErrorResponseFragment = ErrorResponse_DatabaseError_Fragment | Error
 
 export type DatabaseResponseFragment = { __typename?: 'DatabaseError', message: string };
 
-export type ValidationResponseFragment = { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> };
+export type ValidationResponseFragment = { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'EmailValidation', property: string, constraints: { __typename?: 'EmailConstraint', isNotEmpty?: string | null, isEmail?: string | null } } | { __typename?: 'PasswordValidation', property: string, constraints: { __typename?: 'PasswordConstraint', isNotEmpty?: string | null, isLength?: string | null, matches?: string | null } } | { __typename?: 'UserValidation', property: string, constraints: { __typename?: 'UserConstraint', isNotEmpty?: string | null, maxLength?: string | null } }> };
 
 export type UserResponseFragment = { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> };
 
@@ -197,7 +222,7 @@ export type ChangePassMutationVariables = Exact<{
 }>;
 
 
-export type ChangePassMutation = { __typename?: 'Mutation', changePass: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> } };
+export type ChangePassMutation = { __typename?: 'Mutation', changePass: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'EmailValidation', property: string, constraints: { __typename?: 'EmailConstraint', isNotEmpty?: string | null, isEmail?: string | null } } | { __typename?: 'PasswordValidation', property: string, constraints: { __typename?: 'PasswordConstraint', isNotEmpty?: string | null, isLength?: string | null, matches?: string | null } } | { __typename?: 'UserValidation', property: string, constraints: { __typename?: 'UserConstraint', isNotEmpty?: string | null, maxLength?: string | null } }> } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   emailInput: EmailInput;
@@ -211,7 +236,7 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> } };
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'EmailValidation', property: string, constraints: { __typename?: 'EmailConstraint', isNotEmpty?: string | null, isEmail?: string | null } } | { __typename?: 'PasswordValidation', property: string, constraints: { __typename?: 'PasswordConstraint', isNotEmpty?: string | null, isLength?: string | null, matches?: string | null } } | { __typename?: 'UserValidation', property: string, constraints: { __typename?: 'UserConstraint', isNotEmpty?: string | null, maxLength?: string | null } }> } };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -223,7 +248,7 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'ValidationResponse', property: string, constraints: { __typename?: 'Constraints', length: string, isEmail: string, isNotEmpty: string, maxLength: string } }> } };
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'EmailValidation', property: string, constraints: { __typename?: 'EmailConstraint', isNotEmpty?: string | null, isEmail?: string | null } } | { __typename?: 'PasswordValidation', property: string, constraints: { __typename?: 'PasswordConstraint', isNotEmpty?: string | null, isLength?: string | null, matches?: string | null } } | { __typename?: 'UserValidation', property: string, constraints: { __typename?: 'UserConstraint', isNotEmpty?: string | null, maxLength?: string | null } }> } };
 
 export type FindCharQueryVariables = Exact<{
   char: Array<Scalars['String']> | Scalars['String'];
@@ -257,12 +282,27 @@ export const ValidationResponseFragmentDoc = gql`
   ... on ValidationErrors {
     message
     responses {
-      property
-      constraints {
-        length
-        isEmail
-        isNotEmpty
-        maxLength
+      ... on UserValidation {
+        property
+        constraints {
+          isNotEmpty
+          maxLength
+        }
+      }
+      ... on PasswordValidation {
+        property
+        constraints {
+          isNotEmpty
+          isLength
+          matches
+        }
+      }
+      ... on EmailValidation {
+        property
+        constraints {
+          isNotEmpty
+          isEmail
+        }
       }
     }
   }

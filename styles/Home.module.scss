@@ -135,15 +135,11 @@ align-items: center;
 
 
 &__Characters{
-
 @include resBox(rgb(216, 94, 94))
-
-
 }
 
 &__Words{
   @include resBox(rgb(113, 164, 241));
-
 }
 
 &__Sentences{

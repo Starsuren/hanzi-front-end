@@ -23,7 +23,7 @@ const Login = () => {
     const [showLoading, setShowLoading] = useState(false);
 
     useIsAuth(setShowComponents);
-    const Error = <div className={styles.main__container}><AnimatePresence>{message.message ?<motion.div exit={{opacity:0,x:20}} initial={{opacity:0,x:20}} animate={{opacity:1,x:0}}  transition={{type:'spring',duration:1,stiffness:30}} className={styles.main__error}>{message.message}</motion.div>:null}</AnimatePresence></div>
+    const Error = <div className={styles.main__container}><AnimatePresence>{message.message ?<motion.div key="error" exit={{opacity:0,x:20}} initial={{opacity:0,x:20}} animate={{opacity:1,x:0}}  transition={{type:'spring',duration:1,stiffness:30}} className={styles.main__error}>There are no users that matches the details you have entered</motion.div>:null}</AnimatePresence></div>
 
     const submitHandler = async ()=> { 
         const response = await login({
@@ -89,7 +89,9 @@ const Login = () => {
     
       let Form = (
         <form className={styles.main__form} >
+        
            <h1>Login</h1>
+           <p>Log into your account</p>
           {formElementsArray.map(formElement => {
             return(<Input
               key={formElement.id}
@@ -101,8 +103,10 @@ const Login = () => {
               shouldValidate={formElement.config.validation}
               touched={formElement.config.touched}
               changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
+              validateMsg={undefined}
             />)
-})}    
+})}  
+  
           {showLoading ? <Button btnType='loading' />  : <Button clicked = {submitHandler}  btnType="Success" disabled={!formIsValid}>Login</Button>}
         </form>
       );

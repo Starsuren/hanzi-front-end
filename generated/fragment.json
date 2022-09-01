@@ -9,6 +9,11 @@
       "DatabaseError",
       "ValidationErrors"
     ],
+    "ValidationResponse": [
+      "EmailValidation",
+      "PasswordValidation",
+      "UserValidation"
+    ],
     "charResponse": [
       "Characters",
       "Sentences",
