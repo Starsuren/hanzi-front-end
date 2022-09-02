@@ -104,6 +104,7 @@ const Login = () => {
               touched={formElement.config.touched}
               changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
               validateMsg={undefined}
+              clientValidate={false}
             />)
 })}  
   

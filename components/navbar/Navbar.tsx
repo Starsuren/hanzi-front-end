@@ -56,7 +56,6 @@ const bottomLineVariants = {
 const listVariant = {
     visible:{x:0
     },
-    visibleTwo:{background:'blue'},
     hidden:{x:400}
     }
 
@@ -94,14 +93,14 @@ const MainLinks:React.FC<{open:boolean, data:{loading:boolean,logged:LoggedQuery
 
 
      const AniLinks = <AnimatePresence>{open?<motion.ul key="open" exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>{BaseLinks}</motion.ul>:
-     <motion.ul initial={{y:-5, opacity:0}} animate={{y:0, opacity:1}} key="closed">{BaseLinks}</motion.ul>}</AnimatePresence>;
+     <motion.ul initial={{opacity:0}} animate={{opacity:1}} key="closed">{BaseLinks}</motion.ul>}</AnimatePresence>;
 
 
  return data.loading ? <Spinner/> : AniLinks;
 }
 
 export const Navbar:React.FC = () => {
-    const [cycle,runCycle] = useCycle('visible','visibleTwo')
+ 
     const [isOpen, setIsOpen] = useState(false);
     const [logout, { loading: logoutLoading }] = useLogoutMutation();
     const { data, loading } = useLoggedQuery( {ssr:false});

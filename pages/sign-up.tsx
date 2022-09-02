@@ -104,6 +104,7 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
           touched={formElement.config.touched}
           changed={(event:ChangeEvent<HTMLInputElement>)=>inputChangedHandler(event,formElement.id)}
           validateMsg={message}
+          clientValidate={true}
         />)
 })}
       
