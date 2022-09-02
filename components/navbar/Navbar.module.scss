@@ -3,9 +3,6 @@
 
  
 .nav__menu {
-
-
-
     &__burger{
         display:none;
         @include vam.screens(mobile) {
@@ -49,7 +46,6 @@
 .active{
 color: rgb(78, 168, 168);
 position: relative;
-transition: all 3s;
 
 @include vam.screens(desktop) {
     &::after{

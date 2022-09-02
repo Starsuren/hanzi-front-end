@@ -93,8 +93,8 @@ const MainLinks:React.FC<{open:boolean, data:{loading:boolean,logged:LoggedQuery
         </>)
 
 
-     const AniLinks = <AnimatePresence>{open?<motion.ul exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>{BaseLinks}</motion.ul>:
-     <motion.ul initial={{scale:0.5, opacity:0}} animate={{scale:1, opacity:1}}>{BaseLinks}</motion.ul>}</AnimatePresence>;
+     const AniLinks = <AnimatePresence>{open?<motion.ul key="open" exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>{BaseLinks}</motion.ul>:
+     <motion.ul initial={{y:-5, opacity:0}} animate={{y:0, opacity:1}} key="closed">{BaseLinks}</motion.ul>}</AnimatePresence>;
 
 
  return data.loading ? <Spinner/> : AniLinks;
