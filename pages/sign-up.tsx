@@ -108,7 +108,7 @@ const inputChangedHandler = (event:ChangeEvent<HTMLInputElement>, inputIdentifie
         />)
 })}
       
-      {showLoading ? <Button btnType='loading' />  : <Button clicked = {submitHandler}  btnType="Success" disabled={!formIsValid}>Login</Button>}
+      {showLoading ? <Button btnType='loading' />  : <Button clicked = {submitHandler}  btnType="Success" disabled={!formIsValid}>Sign-Up</Button>}
     </form>
   );
 

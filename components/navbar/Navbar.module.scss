@@ -6,16 +6,16 @@
     &__burger{
         display:none;
         @include vam.screens(mobile) {
-            &{  position:relative;
+            &{  position:absolute;
+                right:0;
                 display:flex;
                 justify-content:center;
                 align-items:center;
                 width:45px;
                 height:45px;
                 cursor:pointer;
-                
                 margin-right: 0.2rem;
-               
+            
         }
         }
         
@@ -67,10 +67,16 @@ position: relative;
 
 
 .nav {
-
-
+    position: absolute;
+    top:0;
+    z-index: 5;
+    @include vam.screens(mobile){
+        position:static;
+        z-index: 5; 
+    }
 
 & ul{
+   
     padding-right: 30px;
     @include vam.screens(mobile) {
     &{
@@ -83,7 +89,8 @@ position: relative;
     flex-direction:column;
     align-items: center;
     justify-content: center;
-    transform: translateX(2200%);       
+    transform: translateX(500%); 
+    color:rgb(255, 255, 255);    
     } }
 
 
@@ -129,8 +136,8 @@ color:rgb(9, 93, 72);
 padding:5rem;
 
 & a{
-padding:3rem;
-
+padding:1rem;
+margin:0;
 
 &:hover{
 color:rgb(15, 174, 195)

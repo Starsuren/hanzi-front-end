@@ -54,13 +54,13 @@ const bottomLineVariants = {
 
 
 const listVariant = {
-    visible:{x:0
+    visible:{x:0,opacity:1
     },
-    hidden:{x:400}
+    hidden:{x:400,opacity:0}
     }
 
-const BurgerMenu:React.FC<{open:boolean,clicked:()=>void}> = ({open, clicked}) => (
-<motion.div onClick={clicked} variants={containerVariants} whileHover={open? 'openHover':'hover'} initial={open? 'openHidden' : 'hidden'} animate={open?'openVisible':'visible'}
+const BurgerMenu:React.FC<{showModal:boolean,setModal:()=>void}> = ({showModal, setModal}) => (
+<motion.div onClick={setModal} variants={containerVariants} whileHover={showModal? 'openHover':'hover'} initial={showModal? 'openHidden' : 'hidden'} animate={showModal?'openVisible':'visible'}
 className={styles.nav__menu__burger}> 
 <motion.div variants= {middleLineVariants} className={styles.nav__menu__burger__line}></motion.div>
 <motion.div variants= {topLineVariants}    className={styles.nav__menu__burger__line2}></motion.div>
@@ -68,31 +68,37 @@ className={styles.nav__menu__burger}>
 </motion.div>
 )
 
-const MainLinks:React.FC<{open:boolean, data:{loading:boolean,logged:LoggedQuery|undefined}}> = ({open, data})=>{ 
+const MainLinks:React.FC<{showModal:boolean,setModal:()=>void, data:{loading:boolean,logged:LoggedQuery|undefined}}> = ({setModal,showModal, data})=>{ 
 
     let loggedUser = null;
     if(data?.logged?.isLogged !== undefined){
     loggedUser = data.logged.isLogged?.username;
     }
 
+ function closeModal(){
+
+    showModal && setModal();
+
+ }
+
      const BaseLinks =(<>
         <li> 
-        <ActiveLink href="/" activeClassName={styles.active}><a>Home</a></ActiveLink>
+        <ActiveLink href="/" activeClassName={styles.active}><a onClick={closeModal}>Home</a></ActiveLink>
         </li> 
         {loggedUser ? <li>   
-        <ActiveLink href="/user/" activeClassName={styles.active}><a>{loggedUser}</a></ActiveLink>
+        <ActiveLink href="/user/" activeClassName={styles.active}><a onClick={closeModal}>{loggedUser}</a></ActiveLink>
         </li>:
         <><li>   
-        <ActiveLink href="/login" activeClassName={styles.active}><a>Login</a></ActiveLink>
+        <ActiveLink href="/login" activeClassName={styles.active}><a onClick={closeModal}>Login</a></ActiveLink>
         </li>
         <li>
-        <ActiveLink href="/sign-up" activeClassName={styles['active--button']}>{open?<a>Sign-up</a>:<button>Sign-up</button>}</ActiveLink>
+        <ActiveLink href="/sign-up" activeClassName={styles['active--button']}>{showModal?<a onClick={closeModal}>Sign-up</a>:<button>Sign-up</button>}</ActiveLink>
         </li>
         </>}
         </>)
 
 
-     const AniLinks = <AnimatePresence>{open?<motion.ul key="open" exit={{x:400}} initial='hidden'variants={listVariant} animate='visible'>{BaseLinks}</motion.ul>:
+     const AniLinks = <AnimatePresence>{showModal?<motion.ul key="open" exit={{x:400}} initial='hidden'variants={listVariant} transition={{duration:0.4}} animate='visible'>{BaseLinks}</motion.ul>:
      <motion.ul initial={{opacity:0}} animate={{opacity:1}} key="closed">{BaseLinks}</motion.ul>}</AnimatePresence>;
 
 
@@ -116,8 +122,8 @@ export const Navbar:React.FC = () => {
 
     const nav = ( <nav className={styles.nav}>
     <div className={styles.nav__menu}>
-     <MainLinks open={isOpen} data={{loading,logged:data}} />
-     <BurgerMenu open={isOpen} clicked={openHandler} />
+     <MainLinks showModal={isOpen} setModal ={openHandler} data={{loading,logged:data}} />
+     <BurgerMenu showModal={isOpen} setModal={openHandler} />
      <div className={styles.nav__modal}></div>
      <Modal showModal={isOpen} setModal={openHandler} />
      </div>
