@@ -1,4 +1,4 @@
-
+import {bottomLineVariants, listVariant, middleLineVariants,topLineVariants,containerVariants} from './navBarBurgerVariant';
 import { useApolloClient } from '@apollo/client';
 import Modal from '../UI/Modal';
 import { useRouter } from "next/router";
@@ -6,58 +6,8 @@ import { LoggedQuery, useLoggedQuery , useLogoutMutation} from "../../generated/
 import ActiveLink from './ActiveLink';
 import {motion,AnimatePresence,useCycle } from 'framer-motion';
 import {useState} from 'react';
-import styles from './Navbar.module.scss'
+import styles from './navbar.module.scss'
 import Spinner from '../spinner/Spinner'
-
-const containerVariants = {
-    hidden:{
-    scale:0,
-    opacity:0
-    },
-    visible:{
-    scale:1,
-    opacity:1,
-    transition:{type:'spring', stiffness:90, delay:0.2}
-    },
-    openVisible:{
-    scale:1,
-    opacity:1,
-    transition:{type:'spring', stiffness:90, delay:0.2}
-        }
-
-} 
-
-const middleLineVariants = {
-    hover:{width:'30px'},
-    openHover:{width:0},
-    openHidden:{ },
-    openVisible:{width:0,transition:{type:'spring',velocity:120,stiffness:140}}
-
-} 
-
-const topLineVariants = {
-    hover:{width:"30px"},
-    visible:{translateY:-10},
-    openHover:{width:['30px','30.5px'], transition:{ease:'easeInOut',stiffness:30,type:'spring',repeat:Infinity,}},
-    openHidden:{rotate:0},
-    openVisible:{rotate:45 }
-
-} 
-
-const bottomLineVariants = {
-    hover:{width:'30px'},
-    visible:{translateY:10},
-    openHover:{width:['30px','30.5px'], transition:{ease:'easeInOut',stiffness:30,type:'spring',repeat:Infinity}},
-    openHidden:{width:'30px',rotate:0 },
-    openVisible:{width:'30px',rotate:-45}
-} 
-
-
-const listVariant = {
-    visible:{x:0,opacity:1
-    },
-    hidden:{x:400,opacity:0}
-    }
 
 const BurgerMenu:React.FC<{showModal:boolean,setModal:()=>void}> = ({showModal, setModal}) => (
 <motion.div onClick={setModal} variants={containerVariants} whileHover={showModal? 'openHover':'hover'} initial={showModal? 'openHidden' : 'hidden'} animate={showModal?'openVisible':'visible'}
@@ -74,11 +24,8 @@ const MainLinks:React.FC<{showModal:boolean,setModal:()=>void, data:{loading:boo
     if(data?.logged?.isLogged !== undefined){
     loggedUser = data.logged.isLogged?.username;
     }
-
  function closeModal(){
-
-    showModal && setModal();
-
+showModal && setModal();
  }
 
      const BaseLinks =(<>
