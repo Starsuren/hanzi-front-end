@@ -1,23 +1,25 @@
 import Head from 'next/head'
-import styles from '../styles/Home.module.scss'
+import styles from '../styles/index.module.scss'
 import withApollo from '../utility/withApollo';
 import Spinner from '../components/spinner/Spinner';
 import {useEffect, useState, useRef} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
-import { valueFromAST } from 'graphql';
 import {useFindCharQuery} from '../generated/graphql';
 import Modal from '../components/UI/Modal';
 import * as React from 'react';
+
 const variants = {
 visible:{ display:'block',y:0, opacity:1, transition:{duration:0.3, delay:0.5, type:'tween'}},
 hidden:{display:'none',y:400,opacity:0}
 }
 
-const Results:React.FC<{openHandler:()=>void, isOpen:boolean}>  = ({openHandler,isOpen})=> {
+const Results:React.FC<{openHandler:()=>void, isModelOpen:boolean}>  = ({openHandler,isModelOpen})=> {
 const itemRef = useRef<Array<HTMLDivElement | null>>([]);
 
-const items = (<><div className={styles.main__box__results__item}>
-  <div className={styles.main__box__results__item__text}>
+const items = (<div className={styles.main__box__results__container}>
+  
+  <div className={styles.main__box__results__container__item}>
+  <div className={styles.main__box__results__container__item__text}  onClick={openHandler}>
   <span>中文</span>
   <span>zhongwen</span>
   <span>Chinese Languag  kjkds jdkjd kjkds eklk 
@@ -25,35 +27,18 @@ const items = (<><div className={styles.main__box__results__item}>
   </div>
   </div>
   
-  <div className={styles.main__box__results__item}>
-  <div className={styles.main__box__results__item__text}>
-  <span>中文</span>
-  <span>zhongwen</span>
-  <span>Chinese Languag  kjkds jdkjd kjkds eklk 
-  ddadaddd anklnk lnkl ddgfgdf hdhfd hgdg</span>
-  </div>
-  </div>
-  
-  <div ref={(e)=>itemRef.current.push(e) } className={styles.main__box__results__item} onClick={openHandler}>
-  <div className={styles.main__box__results__item__text}>
-  <span>中文</span>
-  <span>zhongwen</span>
-  <span>Chinese Languag  kjkds jdkjd kjkds eklk 
-  ddadaddd anklnk lnkl ddgfgdf hdhfd hgdg</span>
-  </div>
-  </div>
-  </>)
+  </div>)
 return items;
    
 }
 
 
-const Home =  ()=>  {
+const index =  ()=>  {
 
   const {data,loading} = useFindCharQuery({variables:{char:['z'],options:{characters:true,sentences:true,words:true}}})
   const inputRef = useRef<HTMLInputElement|null>(null);
   const [state,setState] = useState<string|null>(null);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isModelOpen, setModelOpen] = useState(false);
   useEffect(() => {
     if (state) {
      setTimeout(()=>inputRef.current!.focus(),1000) ;
@@ -61,7 +46,7 @@ const Home =  ()=>  {
   }, [state])
 
  const dataResults = data && data!.findChar.map((v)=><div className={`${styles[`main__box__results__item--${v.__typename}`]} ${styles.main__box__results__item}`}>{[v.char_detail.character,v.char_detail.meaning,v.char_detail.pinyin]}</div>)
- const openHandler = () => setIsOpen(!isOpen);
+ const openHandler = () => setModelOpen(!isModelOpen);
  
   return (
 
@@ -102,10 +87,10 @@ const Home =  ()=>  {
       </div>
    
   
-<Results openHandler={openHandler} isOpen={isOpen}/>
+<Results openHandler={openHandler} isModelOpen={isModelOpen}/>
 
 
-<Modal showModal={isOpen} setModal={()=>setIsOpen(!isOpen)} />
+<Modal showModal={isModelOpen} setModal={()=>setModelOpen(!isModelOpen)} />
 
       </div> 
       </motion.div>
@@ -115,5 +100,5 @@ const Home =  ()=>  {
   )
 }
 
-  export default withApollo({ ssr: false })(Home);
+  export default withApollo({ ssr: false })(index);
 

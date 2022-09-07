@@ -54,7 +54,7 @@ showModal && setModal();
 
 export const Navbar:React.FC = () => {
  
-    const [isOpen, setIsOpen] = useState(false);
+    const [isModelOpen, setModelOpen] = useState(false);
     const [logout, { loading: logoutLoading }] = useLogoutMutation();
     const { data, loading } = useLoggedQuery( {ssr:false});
     const router = useRouter()
@@ -65,14 +65,14 @@ export const Navbar:React.FC = () => {
         router.replace('/')
     } 
 
-    const openHandler = () => setIsOpen(!isOpen);
+    const openHandler = () => setModelOpen(!isModelOpen);
 
     const nav = ( <nav className={styles.nav}>
     <div className={styles.nav__menu}>
-     <MainLinks showModal={isOpen} setModal ={openHandler} data={{loading,logged:data}} />
-     <BurgerMenu showModal={isOpen} setModal={openHandler} />
+     <MainLinks showModal={isModelOpen} setModal ={openHandler} data={{loading,logged:data}} />
+     <BurgerMenu showModal={isModelOpen} setModal={openHandler} />
      <div className={styles.nav__modal}></div>
-     <Modal showModal={isOpen} setModal={openHandler} />
+     <Modal showModal={isModelOpen} setModal={openHandler} />
      </div>
      </nav>)
     
