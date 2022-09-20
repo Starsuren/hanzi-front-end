@@ -1,15 +1,15 @@
-import { useState,useEffect, PropsWithChildren, ReactNode } from "react";
+import { useState,useEffect, PropsWithChildren } from "react";
 
  
-export const Delayed:React.FC<PropsWithChildren<{waitBeforeShow?: number}>> = ({children, waitBeforeShow}) => {
+export const Delayed:React.FC<PropsWithChildren<{time?: number}>> = ({children, time}) => {
     const [isShown, setIsShown] = useState(false);
   
     useEffect(() => {
       const timer = setTimeout(() => {
         setIsShown(true);
-      }, waitBeforeShow);
+      }, time);
       return () => clearTimeout(timer);
-    }, [waitBeforeShow]);
+    }, [time]);
   
     return isShown ? children as JSX.Element : null as unknown as JSX.Element ;
   };

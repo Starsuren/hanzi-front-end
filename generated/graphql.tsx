@@ -196,6 +196,7 @@ export type Words = CharCollection & {
   __typename?: 'Words';
   char_detail: Common;
   id: Scalars['Float'];
+  variant?: Maybe<Scalars['String']>;
 };
 
 export type CharResponse = Characters | Sentences | Words;
@@ -256,7 +257,7 @@ export type FindCharQueryVariables = Exact<{
 }>;
 
 
-export type FindCharQuery = { __typename?: 'Query', findChar: Array<{ __typename: 'Characters', variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Sentences', chengyu: boolean, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> };
+export type FindCharQuery = { __typename?: 'Query', findChar: Array<{ __typename: 'Characters', variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Sentences', chengyu: boolean, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Words', variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> };
 
 export type LoggedQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -543,6 +544,9 @@ export const FindCharDocument = gql`
       chengyu
     }
     ... on Characters {
+      variant
+    }
+    ... on Words {
       variant
     }
   }

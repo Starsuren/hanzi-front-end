@@ -4,6 +4,7 @@ query findChar($char:[String!]!,$options:Options!)
      ...on CharCollection{char_detail{character pinyin meaning}}
   	 ...on Sentences{chengyu}
      ...on Characters{variant}
+     ...on Words{variant}
   }
 }
 
