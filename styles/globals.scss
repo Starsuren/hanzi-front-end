@@ -1,20 +1,19 @@
-@use '../styles/var-mixins' as vam;
+@use "../styles/var-mixins" as vam;
 
 html,
 body {
   position: relative;
   padding: 0;
   margin: 0;
-  font-family:'Varela', sans-serif;
+  font-family: "Varela", sans-serif;
   border-color: white;
-  height:100%;
+  height: 100%;
+  overflow-x: hidden;
 
-@include vam.screens('mobile'){
-overflow-x:hidden;
+  @include vam.screens("mobile") {
+    overflow-x: hidden;
+  }
 }
-}
-
-
 
 a {
   color: inherit;
@@ -22,22 +21,19 @@ a {
 }
 
 * {
-   
   box-sizing: border-box;
 }
 
-header{
-display:flex;
-justify-content: flex-end;
-align-items: center;
-
+header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active  {
-     box-shadow: 0 0 0 30px white inset !important;
-    -webkit-box-shadow: 0 0 0 30px white inset !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: 0 0 0 30px white inset !important;
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-

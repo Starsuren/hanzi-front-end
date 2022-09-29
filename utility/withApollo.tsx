@@ -4,9 +4,10 @@ import generatedIntrospection from "../generated/fragment.json";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/graphql",
-  credentials: "include",
+  credentials: "same-origin",
   name: "hanzi",
   version: "1.0",
+
   cache: new InMemoryCache({
     possibleTypes: generatedIntrospection.possibleTypes,
   }),

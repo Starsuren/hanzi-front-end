@@ -57,9 +57,8 @@ const Results: React.FC<{
     const pinyin = itemRef.current[index]!.children[0].children[1].textContent;
     const meaning =
       itemRef.current[index]!.children[0].children[2].textContent?.split(
-        /(?=\d)|Meaning\:/
+        /(?=\d)/
       );
-    meaning?.shift();
     modalResults.current = (
       <motion.div
         exit={{ opacity: 0, x: -20 }}
@@ -70,8 +69,9 @@ const Results: React.FC<{
       >
         <span>{char} </span>
 
-        <span>{pinyin}</span>
+        <span>pinyin: {pinyin}</span>
         <div className={styles.main__box__results__container__modal__meaning}>
+          <h1> Meaning </h1>
           {meaning!.map((v) => (
             <span>{v}</span>
           ))}
@@ -114,8 +114,8 @@ const Results: React.FC<{
               >
                 {v.char_detail.character}
               </span>
-              <span>Pinyin:{v.char_detail.pinyin}</span>
-              <span>Meaning:{v.char_detail.meaning}</span>
+              <span>{v.char_detail.pinyin}</span>
+              <span>{v.char_detail.meaning}</span>
             </div>
           </motion.div>
         </motion.div>

@@ -1,153 +1,194 @@
+@use "../../styles/var-mixins" as vam;
 
-@use '../../styles/var-mixins' as vam;
+.nav {
+  &__menu {
+    &__userMenu {
+      z-index: 3;
+      position: absolute;
+      background-color: rgba(vam.$maincolor, 0.8);
+      border-radius: 5px;
+      right: -2rem;
+      box-shadow: 0px 1px 6px rgba(27, 27, 27, 0.4);
+      border: 1px solid rgba(72, 113, 147, 0.2);
+      & ul {
+        display: flex;
+        flex-direction: column;
+        align-content: flex-end;
+        justify-content: flex-end;
+        padding: 0;
+        color: rgb(250, 250, 250);
+        gap: 0.5rem;
 
- 
-.nav__menu {
-    &__burger{
-        display:none;
-        @include vam.screens(mobile) {
-            &{  position:absolute;
-                right:0;
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                width:45px;
-                height:45px;
-                cursor:pointer;
-                margin-right: 0.2rem;
-            
+        & > li {
+          &:hover {
+            color: white;
+          }
+          & > a:hover {
+            color: darken(vam.$maincolor, 20%);
+            transition: 1s;
+            &::before {
+              content: "";
+              position: absolute;
+              left: 0;
+              margin-top: 3px;
+              width: 4px;
+              height: 18px;
+              background-color: rgb(250, 250, 250);
+            }
+          }
         }
+      }
+    }
+
+    &__userMenuBG {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      cursor: default;
+      z-index: 2;
+    }
+    &__burger {
+      display: none;
+      @include vam.screens(mobile) {
+        & {
+          position: absolute;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 45px;
+          height: 45px;
+          cursor: pointer;
+          margin-right: 0.2rem;
         }
-        
-        &__line,&__line2,&__line3 {
+      }
+
+      &__line,
+      &__line2,
+      &__line3 {
         position: absolute;
-        width:32px;
-        height:4px;
+        width: 32px;
+        height: 4px;
         background: black;
         border-radius: 6px;
         box-shadow: vam.$box-shadow;
-        }
-        
-        &__line2{
-        transform:translateY(10px);
-        }
-        
-        &__line3{
-        transform:translateY(-10px);
-            }
-        
-        }
+      }
 
+      &__line2 {
+        transform: translateY(10px);
+      }
 
+      &__line3 {
+        transform: translateY(-10px);
+      }
     }
 
- 
+    &__username {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
 
-.active{
-color: rgb(78, 168, 168);
-position: relative;
+  .active {
+    color: rgb(78, 168, 168);
+    position: relative;
 
-@include vam.screens(desktop) {
-    &::after{
-        content: '';
+    @include vam.screens(desktop) {
+      &::after {
+        content: "";
         position: absolute;
-        background-color:  rgb(78, 168, 168);
-        height:5px;
-        width:23px;
-        top:1.52rem;
-        left:24%;
+        background-color: rgb(78, 168, 168);
+        height: 5px;
+        width: 23px;
+        top: 1.52rem;
+        left: 24%;
         border-radius: 4px;
+      }
+    }
+  }
+
+  position: absolute;
+  top: 0;
+
+  @include vam.screens(mobile) {
+    position: static;
+    z-index: 5;
+  }
+
+  & ul {
+    padding-right: 30px;
+
+    @include vam.screens(mobile) {
+      & {
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(500%);
+        color: rgb(255, 255, 255);
+      }
+    }
+
+    & > li {
+      max-width: 14rem;
+      & > a {
+        cursor: pointer;
+      }
+      vertical-align: middle;
+      & button {
+        width: 100px;
+        height: 35px;
+        color: rgb(71, 103, 117);
+        background: #c2ebfd;
+        border: 1px solid rgba(113, 157, 192, 0.7);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s linear;
+        cursor: pointer;
+
+        &.active--button {
+          background: rgb(114, 217, 243);
+          color: rgb(0, 0, 0);
+          border: 1px solid rgba(64, 100, 124, 0.7);
         }
 
+        &:hover {
+          background: rgb(160, 202, 212);
+        }
+      }
+
+      display: inline-block;
+      list-style: none;
+      padding: 0 2rem;
+      z-index: 15;
+      & > a:hover {
+        color: rgb(9, 93, 72);
+      }
+
+      @include vam.screens(mobile) {
+        & {
+          padding: 5rem;
+
+          & a {
+            padding: 1rem;
+            margin: 0;
+
+            &:hover {
+              color: rgb(15, 174, 195);
+            }
+          }
+        }
+      }
     }
-
-
- } 
-
-
-
-.nav {
-    position: absolute;
-    top:0;
-     
-    @include vam.screens(mobile){
-        position:static;
-        z-index: 5; 
-    }
-
-& ul{
-   
-    padding-right: 30px;
-    @include vam.screens(mobile) {
-    &{
-    margin:0;
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
-    align-items: center;
-    justify-content: center;
-    transform: translateX(500%); 
-    color:rgb(255, 255, 255);    
-    } }
-
-
-& li{
-
- & button{
-    width: 100px;
-    height: 35px;
-    color:rgb(71, 103, 117);
-    background: #c2ebfd;
-    border: 1px solid rgba(113, 157, 192, 0.7);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: .3s linear;
-    cursor: pointer;
-    
-    &.active--button{
-        background:rgb(114, 217, 243) ;
-        color:rgb(0, 0, 0);
-        border: 1px solid rgba(64, 100, 124, 0.7);
-    }
-
-
-&:hover{
-    background:rgb(160, 202, 212);
+  }
 }
-
-    }
-
-display:inline-block;
-list-style: none;
-padding:0 2rem;
-z-index:15;
-&:hover{
-color:rgb(9, 93, 72);
-
-}
-
-@include vam.screens(mobile) {
-&{
-padding:5rem;
-
-& a{
-padding:1rem;
-margin:0;
-
-&:hover{
-color:rgb(15, 174, 195)
-}
-
-}
-}
-}
-}
-}
-}
-
