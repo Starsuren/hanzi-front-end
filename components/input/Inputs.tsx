@@ -108,6 +108,7 @@ const input: React.FC<Input> = (props) => {
           ref={inputDiv}
           onClick={inputFocusHandler}
           className={inputClasses.join(" ")}
+          onMouseDown={(e) => e.preventDefault()}
         >
           <label className={styles.label}>{props.id}</label>
           <input
@@ -176,6 +177,7 @@ const input: React.FC<Input> = (props) => {
           <button
             type={"button"}
             className={buttonClasses.join(" ")}
+            onMouseDown={(e) => e.preventDefault()}
             onClick={() => {
               setPasswordShown(!passwordShown), inputRef.current!.focus();
             }}
@@ -205,6 +207,7 @@ const input: React.FC<Input> = (props) => {
           ref={inputDiv}
           onClick={inputFocusHandler}
           className={inputClasses.join(" ")}
+          onMouseDown={(e) => e.preventDefault()}
         >
           <label className={styles.label}>{props.id}</label>
           <input
