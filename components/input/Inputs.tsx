@@ -108,7 +108,9 @@ const input: React.FC<Input> = (props) => {
           ref={inputDiv}
           onClick={inputFocusHandler}
           className={inputClasses.join(" ")}
-          onMouseDown={(e) => e.preventDefault()}
+          onMouseDown={(e) => {
+            if (inputRef.current === document.activeElement) e.preventDefault();
+          }}
         >
           <label className={styles.label}>{props.id}</label>
           <input
@@ -207,7 +209,9 @@ const input: React.FC<Input> = (props) => {
           ref={inputDiv}
           onClick={inputFocusHandler}
           className={inputClasses.join(" ")}
-          onMouseDown={(e) => e.preventDefault()}
+          onMouseDown={(e) => {
+            if (inputRef.current === document.activeElement) e.preventDefault();
+          }}
         >
           <label className={styles.label}>{props.id}</label>
           <input

@@ -120,6 +120,14 @@ export type Options = {
   words: Scalars['Boolean'];
 };
 
+export type PaginatedCharResponse = {
+  __typename?: 'PaginatedCharResponse';
+  charResponse: Array<CharResponse>;
+  hasMoreChar?: Maybe<Scalars['Boolean']>;
+  hasMoreSentence?: Maybe<Scalars['Boolean']>;
+  hasMoreWord?: Maybe<Scalars['Boolean']>;
+};
+
 export type PasswordConstraint = {
   __typename?: 'PasswordConstraint';
   isLength?: Maybe<Scalars['String']>;
@@ -139,13 +147,17 @@ export type PasswordValidation = {
 
 export type Query = {
   __typename?: 'Query';
-  findChar: Array<CharResponse>;
+  findChar: PaginatedCharResponse;
   isLogged?: Maybe<Users>;
 };
 
 
 export type QueryFindCharArgs = {
   char: Array<Scalars['String']>;
+  cursorChar?: InputMaybe<Scalars['Int']>;
+  cursorSent?: InputMaybe<Scalars['Int']>;
+  cursorWord?: InputMaybe<Scalars['Int']>;
+  limit: Scalars['Int'];
   options: Options;
 };
 
@@ -254,10 +266,14 @@ export type RegisterMutation = { __typename?: 'Mutation', register: { __typename
 export type FindCharQueryVariables = Exact<{
   char: Array<Scalars['String']> | Scalars['String'];
   options: Options;
+  limit: Scalars['Int'];
+  cursorChar?: InputMaybe<Scalars['Int']>;
+  cursorWord?: InputMaybe<Scalars['Int']>;
+  cursorSent?: InputMaybe<Scalars['Int']>;
 }>;
 
 
-export type FindCharQuery = { __typename?: 'Query', findChar: Array<{ __typename: 'Characters', variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Sentences', chengyu: boolean, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename: 'Words', variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> };
+export type FindCharQuery = { __typename?: 'Query', findChar: { __typename?: 'PaginatedCharResponse', hasMoreChar?: boolean | null, hasMoreWord?: boolean | null, hasMoreSentence?: boolean | null, charResponse: Array<{ __typename?: 'Characters', id: number, variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename?: 'Sentences', id: number, chengyu: boolean, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | { __typename?: 'Words', id: number, variant?: string | null, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }> } };
 
 export type LoggedQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -530,24 +546,38 @@ export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const FindCharDocument = gql`
-    query findChar($char: [String!]!, $options: Options!) {
-  findChar(char: $char, options: $options) {
-    __typename
-    ... on CharCollection {
-      char_detail {
-        character
-        pinyin
-        meaning
+    query findChar($char: [String!]!, $options: Options!, $limit: Int!, $cursorChar: Int, $cursorWord: Int, $cursorSent: Int) {
+  findChar(
+    char: $char
+    options: $options
+    limit: $limit
+    cursorChar: $cursorChar
+    cursorWord: $cursorWord
+    cursorSent: $cursorSent
+  ) {
+    hasMoreChar
+    hasMoreWord
+    hasMoreSentence
+    charResponse {
+      ... on CharCollection {
+        char_detail {
+          character
+          pinyin
+          meaning
+        }
       }
-    }
-    ... on Sentences {
-      chengyu
-    }
-    ... on Characters {
-      variant
-    }
-    ... on Words {
-      variant
+      ... on Sentences {
+        id
+        chengyu
+      }
+      ... on Characters {
+        id
+        variant
+      }
+      ... on Words {
+        id
+        variant
+      }
     }
   }
 }
@@ -567,6 +597,10 @@ export const FindCharDocument = gql`
  *   variables: {
  *      char: // value for 'char'
  *      options: // value for 'options'
+ *      limit: // value for 'limit'
+ *      cursorChar: // value for 'cursorChar'
+ *      cursorWord: // value for 'cursorWord'
+ *      cursorSent: // value for 'cursorSent'
  *   },
  * });
  */

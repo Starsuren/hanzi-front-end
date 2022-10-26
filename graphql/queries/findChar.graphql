@@ -1,13 +1,42 @@
-query findChar($char:[String!]!,$options:Options!)
-{findChar(char:$char,options:$options){
-  __typename
-     ...on CharCollection{char_detail{character pinyin meaning}}
-  	 ...on Sentences{chengyu}
-     ...on Characters{variant}
-     ...on Words{variant}
+query findChar(
+  $char: [String!]!
+  $options: Options!
+  $limit: Int!
+  $cursorChar: Int
+  $cursorWord: Int
+  $cursorSent: Int
+) {
+  findChar(
+    char: $char
+    options: $options
+    limit: $limit
+    cursorChar: $cursorChar
+    cursorWord: $cursorWord
+    cursorSent: $cursorSent
+  ) {
+    hasMoreChar
+    hasMoreWord
+    hasMoreSentence
+    charResponse {
+      ... on CharCollection {
+        char_detail {
+          character
+          pinyin
+          meaning
+        }
+      }
+      ... on Sentences {
+        id
+        chengyu
+      }
+      ... on Characters {
+        id
+        variant
+      }
+      ... on Words {
+        id
+        variant
+      }
+    }
   }
 }
-
-
- 
-  
