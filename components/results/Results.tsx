@@ -1,10 +1,6 @@
 import { useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FindCharLazyQueryHookResult,
-  FindCharQueryHookResult,
-  CharResponse,
-} from "../../generated/graphql";
+import { FindCharQueryHookResult, CharResponse } from "../../generated/graphql";
 import * as React from "react";
 import { Delayed } from "../../utility/Delayed";
 import styles from "../../styles/index.module.scss";
@@ -14,6 +10,12 @@ export enum Options {
   words = "words",
   sentences = "sentences",
 }
+
+type Cursor = {
+  cursorChar: null | number;
+  cursorWord: null | number;
+  cursorSent: null | number;
+};
 
 export type QueryOptions = {
   [Options.characters]: boolean;
@@ -36,9 +38,11 @@ export const Results: React.FC<{
   let modalResults = useRef<JSX.Element>();
   const optionsArray: string[] = [];
   let hasMore = false;
-  let cursorChar: null | number = null,
-    cursorWord: null | number = null,
-    cursorSent: null | number = null;
+  const cursor = useRef<Cursor>({
+    cursorChar: null,
+    cursorWord: null,
+    cursorSent: null,
+  });
   for (const key in queryOptions) {
     if (queryOptions[key as Options] === true)
       switch (key) {
@@ -119,15 +123,28 @@ export const Results: React.FC<{
         };
       };
 
-      cursorChar = optionsArray.includes(Options.characters)
-        ? sortedFilterResults.reduce(cursorReducer(Options.characters)).id
-        : null;
-      cursorWord = optionsArray.includes(Options.words)
-        ? sortedFilterResults.reduce(cursorReducer(Options.words)).id
-        : null;
-      cursorSent = optionsArray.includes(Options.sentences)
-        ? sortedFilterResults.reduce(cursorReducer(Options.sentences)).id
-        : null;
+      const optionFind = (type: Options) => {
+        return (val: CharResponse) =>
+          val.__typename!.toLowerCase() === type || false;
+      };
+
+      if (sortedFilterResults.length > 0) {
+        cursor.current.cursorChar =
+          optionsArray.includes(Options.characters) &&
+          sortedFilterResults.find(optionFind(Options.characters))
+            ? sortedFilterResults.reduce(cursorReducer(Options.characters)).id
+            : cursor.current.cursorChar;
+        cursor.current.cursorWord =
+          optionsArray.includes(Options.words) &&
+          sortedFilterResults.find(optionFind(Options.words))
+            ? sortedFilterResults.reduce(cursorReducer(Options.words)).id
+            : cursor.current.cursorWord;
+        cursor.current.cursorSent =
+          optionsArray.includes(Options.sentences) &&
+          sortedFilterResults.find(optionFind(Options.sentences))
+            ? sortedFilterResults.reduce(cursorReducer(Options.sentences)).id
+            : cursor.current.cursorSent;
+      }
 
       return sortedFilterResults.map((v, i) => (
         <motion.div
@@ -195,9 +212,9 @@ export const Results: React.FC<{
                   onClick={() =>
                     fetchMore({
                       variables: {
-                        cursorChar,
-                        cursorWord,
-                        cursorSent,
+                        cursorChar: cursor.current.cursorChar,
+                        cursorWord: cursor.current.cursorWord,
+                        cursorSent: cursor.current.cursorSent,
                       },
                     })
                   }
