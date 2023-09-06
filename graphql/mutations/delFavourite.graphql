@@ -1,0 +1,3 @@
+mutation delFavourite($id: Float!, $option: String!) {
+  delFavourite(id: $id, options: $option)
+}

@@ -112,49 +112,65 @@ $color1: #a6c4e6;
 
         &__modal {
           position: fixed;
-          border-radius: 5px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
           z-index: 4;
-          background-color: rgba($color: #1b1b1b, $alpha: 0.3);
-          padding: 1rem;
+          left: 50%;
+          top: 50%;
           max-width: 60%;
           min-width: 15%;
-          & > span {
-            color: white;
-            padding: 0.5rem;
-
-            &:nth-child(1) {
-              background-color: rgb(86, 182, 182);
-              border: 1px solid rgba($color: #fffefe, $alpha: 0.3);
-              border-radius: 5px;
-              font-size: 1.8rem;
-            }
-            &:nth-child(2) {
-              font-size: 0.8rem;
-            }
+          &__button {
+            border-radius: 4px;
+            border: 1px solid black;
+            background-color: rgba($color: #c33030, $alpha: 1);
+            padding: 1rem;
+            max-width: 60%;
+            min-width: 15%;
           }
-          &__meaning {
-            color: rgb(225, 225, 225);
+
+          &__item {
+            border-radius: 5px;
             display: flex;
-            align-items: center;
             flex-direction: column;
-            font-size: 1.1rem;
-            gap: 1.1rem;
-            white-space: pre-line;
-            max-width: 90%;
-            text-align: center;
-            & h1 {
-              padding: 0;
-              margin: 0;
-              font-size: 1.5rem;
-              text-decoration: underline;
-              color: rgb(209, 209, 209);
+            align-items: center;
+            background-color: rgba($color: #1b1b1b, $alpha: 0.3);
+            padding: 1rem;
+            max-width: 60%;
+            min-width: 15%;
+            width: 100%;
+            height: 100%;
+            & > span {
+              color: white;
+              padding: 0.5rem;
+
+              &:nth-child(1) {
+                background-color: rgb(86, 182, 182);
+                border: 1px solid rgba($color: #fffefe, $alpha: 0.3);
+                border-radius: 5px;
+                font-size: 1.8rem;
+              }
+              &:nth-child(2) {
+                font-size: 0.8rem;
+              }
+            }
+            &__meaning {
+              color: rgb(225, 225, 225);
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+              font-size: 1.1rem;
+              gap: 1.1rem;
+              white-space: pre-line;
+              max-width: 90%;
+              text-align: center;
+              & h1 {
+                padding: 0;
+                margin: 0;
+                font-size: 1.5rem;
+                text-decoration: underline;
+                color: rgb(209, 209, 209);
+              }
             }
           }
         }
-
         &__item {
           flex-direction: row;
           text-align: center;
@@ -191,6 +207,12 @@ $color1: #a6c4e6;
 
           &:hover {
             background: rgb(73, 151, 151);
+          }
+
+          &__favsvg {
+            position: absolute;
+            right: 9px;
+            top: 7px;
           }
 
           &__text {

@@ -3,16 +3,13 @@ import styles from "../styles/index.module.scss";
 import withApollo from "../utility/withApollo";
 import Spinner from "../components/spinner/Spinner";
 import { useDebounce } from "../utility/useDebounce";
-import { useEffect, useState, useRef, useCallback, useMemo } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  FindCharQueryHookResult,
-  useFindCharLazyQuery,
-} from "../generated/graphql";
+import { useFindCharLazyQuery, useLoggedQuery } from "../generated/graphql";
 import Modal from "../components/UI/Modal";
 import * as React from "react";
-import { Delayed } from "../utility/Delayed";
 import { Results, Options, QueryOptions } from "../components/results/Results";
+import { useAuth } from "../utility/AuthProvider";
 
 const variants = {
   visible: {

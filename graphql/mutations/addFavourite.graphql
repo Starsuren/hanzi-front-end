@@ -1,0 +1,3 @@
+mutation addFavourite($id: Float!, $option: String!) {
+  addFavourite(id: $id, options: $option)
+}

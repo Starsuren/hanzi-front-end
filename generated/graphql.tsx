@@ -86,7 +86,9 @@ export type LoginInputs = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addFavourite: Scalars['Boolean'];
   changePass: RegResponse;
+  delFavourite: Scalars['Boolean'];
   forgotPass: Scalars['Boolean'];
   login: RegResponse;
   logout: Scalars['Boolean'];
@@ -94,9 +96,21 @@ export type Mutation = {
 };
 
 
+export type MutationAddFavouriteArgs = {
+  id: Scalars['Float'];
+  options: Scalars['String'];
+};
+
+
 export type MutationChangePassArgs = {
   password: PasswordInput;
   token: Scalars['String'];
+};
+
+
+export type MutationDelFavouriteArgs = {
+  id: Scalars['Float'];
+  options: Scalars['String'];
 };
 
 
@@ -190,6 +204,9 @@ export type Users = {
   __typename?: 'Users';
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
+  favChars: Array<Characters>;
+  favSentences: Array<Characters>;
+  favWords: Array<Words>;
   flashcard: Array<FlashResponse>;
   id: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
@@ -229,6 +246,14 @@ export type ValidationResponseFragment = { __typename?: 'ValidationErrors', mess
 
 export type UserResponseFragment = { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> };
 
+export type AddFavouriteMutationVariables = Exact<{
+  id: Scalars['Float'];
+  option: Scalars['String'];
+}>;
+
+
+export type AddFavouriteMutation = { __typename?: 'Mutation', addFavourite: boolean };
+
 export type ChangePassMutationVariables = Exact<{
   token: Scalars['String'];
   password: PasswordInput;
@@ -236,6 +261,14 @@ export type ChangePassMutationVariables = Exact<{
 
 
 export type ChangePassMutation = { __typename?: 'Mutation', changePass: { __typename?: 'DatabaseError', message: string } | { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | { __typename?: 'ValidationErrors', message: string, responses: Array<{ __typename?: 'EmailValidation', property: string, constraints: { __typename?: 'EmailConstraint', isNotEmpty?: string | null, isEmail?: string | null } } | { __typename?: 'PasswordValidation', property: string, constraints: { __typename?: 'PasswordConstraint', isNotEmpty?: string | null, isLength?: string | null, matches?: string | null } } | { __typename?: 'UserValidation', property: string, constraints: { __typename?: 'UserConstraint', isNotEmpty?: string | null, maxLength?: string | null } }> } };
+
+export type DelFavouriteMutationVariables = Exact<{
+  id: Scalars['Float'];
+  option: Scalars['String'];
+}>;
+
+
+export type DelFavouriteMutation = { __typename?: 'Mutation', delFavourite: boolean };
 
 export type ForgotPasswordMutationVariables = Exact<{
   emailInput: EmailInput;
@@ -278,7 +311,7 @@ export type FindCharQuery = { __typename?: 'Query', findChar: { __typename?: 'Pa
 export type LoggedQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoggedQuery = { __typename?: 'Query', isLogged?: { __typename?: 'Users', username: string, email: string, createdAt: any, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | null };
+export type LoggedQuery = { __typename?: 'Query', isLogged?: { __typename?: 'Users', username: string, email: string, createdAt: any, id: number, favChars: Array<{ __typename?: 'Characters', id: number, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }>, favWords: Array<{ __typename?: 'Words', id: number, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }>, favSentences: Array<{ __typename?: 'Characters', id: number, char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } }>, flashcard: Array<{ __typename?: 'FlashcardSentences', passed?: boolean | null, sentences?: { __typename?: 'Sentences', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'FlashcardWords', passed?: boolean | null, words?: { __typename?: 'Words', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null } | { __typename?: 'Flashcards', passed?: boolean | null, characters?: { __typename?: 'Characters', char_detail: { __typename?: 'Common', character: string, pinyin: string, meaning: string } } | null }> } | null };
 
 export const ErrorResponseFragmentDoc = gql`
     fragment ErrorResponse on ErrorResponse {
@@ -366,6 +399,38 @@ export const UserResponseFragmentDoc = gql`
   }
 }
     `;
+export const AddFavouriteDocument = gql`
+    mutation addFavourite($id: Float!, $option: String!) {
+  addFavourite(id: $id, options: $option)
+}
+    `;
+export type AddFavouriteMutationFn = Apollo.MutationFunction<AddFavouriteMutation, AddFavouriteMutationVariables>;
+
+/**
+ * __useAddFavouriteMutation__
+ *
+ * To run a mutation, you first call `useAddFavouriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddFavouriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addFavouriteMutation, { data, loading, error }] = useAddFavouriteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      option: // value for 'option'
+ *   },
+ * });
+ */
+export function useAddFavouriteMutation(baseOptions?: Apollo.MutationHookOptions<AddFavouriteMutation, AddFavouriteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AddFavouriteMutation, AddFavouriteMutationVariables>(AddFavouriteDocument, options);
+      }
+export type AddFavouriteMutationHookResult = ReturnType<typeof useAddFavouriteMutation>;
+export type AddFavouriteMutationResult = Apollo.MutationResult<AddFavouriteMutation>;
+export type AddFavouriteMutationOptions = Apollo.BaseMutationOptions<AddFavouriteMutation, AddFavouriteMutationVariables>;
 export const ChangePassDocument = gql`
     mutation ChangePass($token: String!, $password: PasswordInput!) {
   changePass(token: $token, password: $password) {
@@ -406,6 +471,38 @@ export function useChangePassMutation(baseOptions?: Apollo.MutationHookOptions<C
 export type ChangePassMutationHookResult = ReturnType<typeof useChangePassMutation>;
 export type ChangePassMutationResult = Apollo.MutationResult<ChangePassMutation>;
 export type ChangePassMutationOptions = Apollo.BaseMutationOptions<ChangePassMutation, ChangePassMutationVariables>;
+export const DelFavouriteDocument = gql`
+    mutation delFavourite($id: Float!, $option: String!) {
+  delFavourite(id: $id, options: $option)
+}
+    `;
+export type DelFavouriteMutationFn = Apollo.MutationFunction<DelFavouriteMutation, DelFavouriteMutationVariables>;
+
+/**
+ * __useDelFavouriteMutation__
+ *
+ * To run a mutation, you first call `useDelFavouriteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDelFavouriteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [delFavouriteMutation, { data, loading, error }] = useDelFavouriteMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      option: // value for 'option'
+ *   },
+ * });
+ */
+export function useDelFavouriteMutation(baseOptions?: Apollo.MutationHookOptions<DelFavouriteMutation, DelFavouriteMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DelFavouriteMutation, DelFavouriteMutationVariables>(DelFavouriteDocument, options);
+      }
+export type DelFavouriteMutationHookResult = ReturnType<typeof useDelFavouriteMutation>;
+export type DelFavouriteMutationResult = Apollo.MutationResult<DelFavouriteMutation>;
+export type DelFavouriteMutationOptions = Apollo.BaseMutationOptions<DelFavouriteMutation, DelFavouriteMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($emailInput: EmailInput!) {
   forgotPass(emailInput: $emailInput)
@@ -621,6 +718,31 @@ export const LoggedDocument = gql`
     username
     email
     createdAt
+    id
+    favChars {
+      id
+      char_detail {
+        character
+        pinyin
+        meaning
+      }
+    }
+    favWords {
+      id
+      char_detail {
+        character
+        pinyin
+        meaning
+      }
+    }
+    favSentences {
+      id
+      char_detail {
+        character
+        pinyin
+        meaning
+      }
+    }
     flashcard {
       ... on Flashcards {
         passed

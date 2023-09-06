@@ -19,7 +19,7 @@ import { useState } from "react";
 import styles from "./navbar.module.scss";
 import Spinner from "../spinner/Spinner";
 import { Dispatch, SetStateAction } from "react";
-
+import { useAuth } from "../../utility/AuthProvider";
 const BurgerMenu: React.FC<{ showModal: boolean; setModal: () => void }> = ({
   showModal,
   setModal,
@@ -134,7 +134,7 @@ const MainLinks: React.FC<{
 export const Navbar: React.FC = () => {
   const [isModelOpen, setModelOpen] = useState(false);
   const [logout, { loading: logoutLoading }] = useLogoutMutation();
-  const { data, loading } = useLoggedQuery({ ssr: false });
+  const { data, loading } = useAuth();
   const router = useRouter();
   const apolloClient = useApolloClient();
   const [userMenu, setUserMenu] = useState(false);

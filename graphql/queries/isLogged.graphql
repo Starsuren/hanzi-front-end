@@ -1,10 +1,65 @@
 query Logged {
-  isLogged{
-    
-    username email createdAt
-  flashcard{
-  ...on Flashcards{passed characters{char_detail {character pinyin meaning}}}
-  ...on FlashcardWords{passed words{char_detail {character pinyin meaning}}}
-  ...on FlashcardSentences{passed sentences{char_detail {character pinyin meaning}}}
+  isLogged {
+    username
+    email
+    createdAt
+    id
+    favChars {
+      id
+      char_detail {
+        character
+        pinyin
+        meaning
+      }
+    }
+    favWords {
+      id
+      char_detail {
+        character
+        pinyin
+        meaning
+      }
+    }
+    favSentences {
+      id
+      char_detail {
+        character
+        pinyin
+        meaning
+      }
+    }
+
+    flashcard {
+      ... on Flashcards {
+        passed
+        characters {
+          char_detail {
+            character
+            pinyin
+            meaning
+          }
+        }
+      }
+      ... on FlashcardWords {
+        passed
+        words {
+          char_detail {
+            character
+            pinyin
+            meaning
+          }
+        }
+      }
+      ... on FlashcardSentences {
+        passed
+        sentences {
+          char_detail {
+            character
+            pinyin
+            meaning
+          }
+        }
+      }
+    }
+  }
 }
-}}
